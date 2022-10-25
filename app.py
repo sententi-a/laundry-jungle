@@ -2,6 +2,7 @@ from http import client
 from types import NoneType
 from flask import Flask, session, request, render_template, redirect, url_for
 from pymongo import MongoClient
+from message import sms
 
 client = MongoClient("localhost", 27017)
 db = client.laundry_jungle
@@ -74,6 +75,25 @@ def book():
     alter = False if user[machine] else True
     db.users.update_one({"user_id": session["id"]}, {"$set": {machine: alter}})
     return redirect(url_for("main"))
+
+
+@app.route("/logout")
+def logout():
+    session.pop("id", None)
+    return redirect("/")
+
+
+def alarm(machine: str, number: int):
+    """
+    유저에게 sms를 보내기 위해 호출하는 함수입니다. machine 정보를 washer 또는 dryer로 설정하면
+    해당 기기를 예약한 유저들에게 문자를 보냅니다.
+    """
+    if not machine in ["washer", "dryer"]:
+        return
+    users = list(map(lambda x: x["phone"], list(db.users.find({machine: True}))))
+    m = "세탁기" if machine == "washer" else "건조기"
+    contents = [f"사용 가능 {m} 안내. https://www.laundry-jungle.com 링크로 접속해 선점하세요", f"{m} 사용 상태 자동 종료 안내. 분실 방지 및 다음 사용자를 위해 빠른 수거 바랍니다."]
+    sms(users, contents[number])
 
 
 if __name__ == "__main__":
