@@ -4,28 +4,27 @@
 <h2>회원가입</h2>
 <div>
 	<form action="/signup" method="POST">
-		<p>ID: <input type="text" name="user_id"/></p>
-		<p>PW: <input type="password" name="password"/></p>
-        <p>NAME: <input type="text" name="username"/></p>
-        <p>SEX:
+		<div>ID: <input type="text" name="user_id"/></div>
+		<div>PW: <input type="password" name="password"/></div>
+        <div>NAME: <input type="text" name="username"/></div>
+        <div>SEX:
             <select name="sex">
                 <option value="">SELECT</option>
                 <option value="male">MALE</option>
                 <option value="female">FEMALE</option>
             </select>
-        </p>
-        <p>TEAM: 
+        </div>
+        <div>TEAM: 
             <select name="team">
                 <option value="">SELECT</option>
                 <option value="male">RED</option>
                 <option value="female">BLUE</option>
             </select>
-        </p>
-        <p>ROOM: <input type="text" name="room"/></p>
-        <!-- 숫자만, 검사 -->
-        <p>PHONE: <input type="text" name="phone"/></p>
-		<button type="submit">가입하기</button>
+        </div>
+        <div>ROOM: <input type="text" name="room"/></div>
+        <div>PHONE: <input type="text" name="phone" placeholder="숫자만 입력해 주세요"/></div>
+		<div><button type="submit">가입하기</button></div>
 	</form>
-	<a href="/"><button type="button">돌아가기</button></a>
+	<div><a href="/"><button type="button">돌아가기</button></a></div>
 </div>
 {% endblock %}
