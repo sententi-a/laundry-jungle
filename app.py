@@ -1,8 +1,9 @@
 from http import client
 from types import NoneType
-from flask import Flask, session, request, render_template, redirect, url_for
+from flask import Flask, session, request, render_template, redirect, url_for, flash
 from pymongo import MongoClient
 from message import sms
+import re
 
 client = MongoClient("localhost", 27017)
 db = client.laundry_jungle
@@ -19,44 +20,61 @@ def login():
         return redirect("/signin")
 
 
-@app.route("/signin", methods=["GET", "POST"])
+@app.route('/signin', methods=['GET', 'POST'])
 def signin():
-    if request.method == "GET":
-        return render_template("signin.html")
+    if request.method == 'GET':
+        return render_template('signin.html')
     else:
-        user_id = request.form.get("user_id")
-        password = request.form.get("password")
+        user_id = request.form.get('user_id')
+        password = request.form.get('password')
 
-        user = db.users.find_one({"user_id": user_id})
-        # Nonetype error 방지, 패스워드 일치 여부 확인
-        if user_id and password and user and user["password"] == password:
-            session["user_id"] = user_id
-            return redirect("/main")
+        user = db.users.find_one({'user_id':user_id})
+        # id/pw 입력, 패스워드 일치 여부 확인
+        if user_id and password and user and user['password'] == password:
+            session['user_id'] = user_id
+            flash("로그인 성공")
+            return redirect('/main')
         else:
-            return render_template("signin.html")
+            flash("아이디나 비밀번호를 확인하세요")
+            return render_template('signin.html')
 
-
-@app.route("/signup", methods=["GET", "POST"])
+@app.route('/signup', methods=['GET', 'POST'])
 def signup():
-    if request.method == "GET":
-        return render_template("signup.html")
+    if request.method == 'GET':
+        return render_template('signup.html')
     else:
-        user_id = request.form.get("user_id")
-        username = request.form.get("username")
-        password = request.form.get("password")
-        sex = request.form.get("sex")
-        team = request.form.get("team")
-        room = request.form.get("room")
-        phone = request.form.get("phone")
-
-        user = {"user_id": user_id, "username": username, "password": password, "sex": sex, "team": team, "room": room, "phone": phone, "washer": False, "dryer": False}
-        if db.users.find_one({"user_id": user_id}) is not NoneType:
-            return render_template("signup.html")
-        # user_id 중복검사
-        # phone 숫자만, 중복 검사
+        user_id = request.form.get('user_id')
+        username = request.form.get('username')
+        password = request.form.get('password')
+        sex = request.form.get('sex')
+        team = request.form.get('team')
+        room = request.form.get('room')
+        phone = request.form.get('phone')
+        
+        user = {'user_id':user_id, 'username':username, 'password':password, 'sex':sex, 'team':team, 'room':room, 'phone':phone, 'washer':False, 'dryer':False}
+        id_exist = bool(db.users.find_one({'user_id':user_id}))
+        room_valid = re.compile("[0-9]{11}").search(room.replace(" ",""))
+        phone_valid = re.compile("[0-9]{11}").search(phone.replace(" ",""))
+        # 전체 입력 확인
+        if not (user_id and username and password and sex and team and room and phone):
+            flash("정보를 모두 입력해 주세요")
+            return render_template('signup.html')
+        # id 중복 검사
+        elif id_exist:
+            flash("이미 존재하는 ID입니다")
+            return render_template('signup.html')
+        # room 숫자, 길이 검사
+        elif len(room)!=3 or not room_valid:
+            flash("방 번호를 확인하세요")
+            return render_template('signup.html')
+        # phone 숫자, 길이 검사
+        elif len(phone)!=11 or not phone_valid:
+            flash("휴대폰 번호를 확인하세요")
+            return render_template('signup.html')
         else:
             db.users.insert_one(user)
-            return redirect("/signin")
+            flash("회원가입 성공")
+            return redirect('/signin')
 
 
 @app.route("/main")
@@ -70,16 +88,16 @@ def main():
 
 @app.route("/reservation", methods=["POST"])
 def book():
-    user = db.users.find_one({"user_id": session["id"]})
+    user = db.users.find_one({"user_id": session["user_id"]})
     machine = request.form.get("machine")
     alter = False if user[machine] else True
-    db.users.update_one({"user_id": session["id"]}, {"$set": {machine: alter}})
+    db.users.update_one({"user_id": session["user_id"]}, {"$set": {machine: alter}})
     return redirect(url_for("main"))
 
 
 @app.route("/logout")
 def logout():
-    session.pop("id", None)
+    session.pop("user_id", None)
     return redirect("/")
 
 
