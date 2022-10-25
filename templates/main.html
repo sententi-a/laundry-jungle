@@ -2,10 +2,62 @@
 <html lang="ko">
     <head>
         <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <!--Local CSS-->
+        <!-- <link rel="stylesheet" type="text/css" href="../static/main_style.css"> -->
+        <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='main_style.css')}}">
+        <!--Font-->
+        <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100&display=swap" rel="stylesheet">
         <title>런드리정글</title>
     </head>
     <body>
-
+        <div class = 'header'>
+             런드리 정글 (logo)
+        </div>
+        <div class = laundry-room>
+            <p>325호</p>
+            <p>326호</p>
+        </div>
+        <div class = 'container'>
+            <!--machine_list[0] == 'washer325', machin_list[1] == 'dryer325', machine_list[2] == 'washer326', machine_list[3] == 'dryer326'-->
+            <!--325호 세탁기, 326호 세탁기, 325호 건조기, 326호 건조기 순서로 들어가야 함-->
+            {% for i in range(4)%}
+                <div class = 'machine'>
+                    {% if machine_list[i]['status'] %}
+                    <img class="open-machine" src="{{url_for('static', filename='washer_open.png')}}">
+                    <div class="machine-name">{% if i < 2 %}세탁기{% else %}건조기{% endif %}</div>
+                    <div class="text-on-open-machine"><p>사용가능</p></div>
+                    {% else %}
+                    <img class = "closed-machine" src ="{{url_for('static', filename='washer_close.png')}}">
+                    <div class = "machine-name">{% if i < 2 %}세탁기{% else %}건조기{% endif %}</div>
+                    <div class = "text-on-closed-machine"><p>사용중({{machine_list[i]['sex']}})</p><p>{{machine_list[i]['start_time'].strftime('%H:%M')}}</p></div>
+                    {% endif %}
+                </div>
+            {% endfor %}
+            <!--325호 세탁기-->
+            <!-- <div class = 'machine'>
+                <img class = "closed-machine" src ="../static/washer_close.png">
+                <div class = "machine-name">세탁기</div>
+                <div class = "text-on-closed-machine"><p>사용중(여)</p><p>20:00</p></div>
+            </div> -->
+            <!--326호 세탁기-->
+            <!-- <div class = 'machine'>
+                <img class = "open-machine" src ="../static/washer_open.png">
+                <div class = "text-on-open-machine"><p>사용가능</p></div>
+            </div> -->
+            <!--325호 건조기-->
+            <!-- <div class = 'machine'>
+                <img class = "open-machine" src ="../static/washer_open.png">
+                <div class = "text-on-open-machine"><p>사용가능</p></div>
+            </div> -->
+            <!--326호 건조기-->
+            <!-- <div class = 'machine'>
+                <img class = "closed-machine" src ="../static/washer_close.png">
+                <div class = "text-on-closed-machine"><p>사용중(여)</p><p>20:00</p></div>
+            </div> -->
+            
+            
+        </div>
     </body>
 
 </html>
