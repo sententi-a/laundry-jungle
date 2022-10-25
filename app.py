@@ -80,7 +80,7 @@ def signup():
 @app.route("/main")
 def main():
     machine_list = list(db.machine.find({}, {"_id": 0}).sort("machine_id"))
-    user = db.users.find_one({"user_id": session["id"]})
+    user = db.users.find_one({"user_id": session["user_id"]})
     # machine_list[0] == 'a_325', machin_list[1] == 'a_326', machine_list[2] == 'b_325', machine_list[3] == 'b_326'
     return render_template("main.html", machine_list=machine_list, user=user)
 
