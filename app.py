@@ -2,6 +2,7 @@ from http import client
 from flask import Flask, session, request, render_template, redirect, url_for, flash
 from pymongo import MongoClient
 from message import sms
+from datetime import datetime
 import re
 
 client = MongoClient("localhost", 27017)
@@ -98,6 +99,30 @@ def book():
 def logout():
     session.pop("user_id", None)
     return redirect("/")
+
+
+@app.route("/update", methods=["POST"])
+def update():
+    code = request.form.get("machine")
+    machine = db.machine.find_one({"machine_id": code})
+    if machine["status"]:
+        user = db.users.find_one({"user_id": session["user_id"]})
+        db.machine.update_one(
+            {"machine_id": code},
+            {
+                "$set": {
+                    "status": False,
+                    "user_id": user["user_id"],
+                    "username": user["username"],
+                    "sex": user["sex"],
+                    "team": user["team"],
+                    "room": user["room"],
+                    "phone": user["phone"],
+                    "start_time": datetime.now(),
+                }
+            },
+        )
+    return redirect(url_for("main"))
 
 
 def alarm(machine: str, number: int):

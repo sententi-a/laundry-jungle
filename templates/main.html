@@ -47,17 +47,29 @@
             <div class='machine'>
                 <!--사용가능-->
                 {% if machine_list[i]['status'] %}
-                <button onclick="show_modal('{{i}}')" class="transparent_button" data-toggle="modal" data-target="#modal{{ i }}">
+                <button onclick="show_modal('{{i}}')" class="transparent_button" data-toggle="modal"
+                    data-target="#modal{{ i }}">
                     <img class="open-machine" src="{{url_for('static', filename='washer_open.png')}}">
                     <div class="machine-name">{% if i < 2 %}세탁기{% else %}건조기{% endif %}</div>
-                    <div class="text-on-open-machine"><p>사용가능</p></div>
+                            <div class="text-on-open-machine">
+                                <p>사용가능</p>
+                            </div>
                 </button>
                 <!--사용중-->
                 {% else %}
                 <button onclick="show_modal('{{i}}')" class="transparent_button">
                     <img class="closed-machine" src="{{url_for('static', filename='washer_close.png')}}">
                     <div class="machine-name">{% if i < 2 %}세탁기{% else %}건조기{% endif %}</div>
-                    <div class="text-on-closed-machine"><p>사용중({{machine_list[i]['sex']}})</p><p>{{machine_list[i]['start_time'].strftime('%H:%M')}}</p></div>
+                            <div class="text-on-closed-machine">
+                                {% if machine_list[i]['sex'] == 'female' %}
+                                <p>사용중(여)</p>
+                                {% else %}
+                                <p>사용중(남)</p>
+                                {% endif %}
+                                <!-- <p>사용중({{machine_list[i]['sex']}})</p> -->
+                                <!-- 위 방식에서 한글 표기 되도록 고쳤습니다! -->
+                                <p>{{machine_list[i]['start_time'].strftime('%H:%M')}}</p>
+                            </div>
                 </button>
                 {% endif %}
             </div>
@@ -75,10 +87,13 @@
                         {% elif machine_list[i]['machine_id'] == 'b_325' %}325호 건조기
                         {% elif machine_list[i]['machine_id'] == 'b_326' %}326호 건조기{% endif %} 사용하시겠습니까?</h3>
                     <p>[마지막 사용자 정보]</p>
-                    <p>{{machine_list[i]['username']}}({% if machine_list[i]['sex'] == 'female' %}여{% else %}남{% endif %}) {{machine_list[i]['room']}}호</p>
+                    <p>{{machine_list[i]['username']}}({% if machine_list[i]['sex'] == 'female' %}여{% else %}남{% endif
+                        %}) {{machine_list[i]['room']}}호</p>
                     <p>시작시간: {{machine_list[i]['start_time'].strftime('%H시 %M분')}}</p>
-                    <button type="button">사용</button>
-                    <button onclick="close_modal('{{i}}')"type="button">취소</button>
+                    <form action="/update" , method="post">
+                        <button type="submit" value="{{machine_list[i]['machine_id']}}" name="machine">사용</button>
+                    </form>
+                    <button onclick="close_modal('{{i}}')" type="button">취소</button>
                 </div>
             </div>
         </div>
@@ -91,32 +106,33 @@
                         {% elif machine_list[i]['machine_id'] == 'a_326' %}326호 세탁기
                         {% elif machine_list[i]['machine_id'] == 'b_325' %}325호 건조기
                         {% elif machine_list[i]['machine_id'] == 'b_326' %}326호 건조기{% endif %} 사용자</h3>
-                    <p>{{machine_list[i]['username']}}({% if machine_list[i]['sex'] == 'female' %}여{% else %}남{% endif %}) {{machine_list[i]['room']}}호</p>
+                    <p>{{machine_list[i]['username']}}({% if machine_list[i]['sex'] == 'female' %}여{% else %}남{% endif
+                        %}) {{machine_list[i]['room']}}호</p>
                     <p>시작시간: {{machine_list[i]['start_time'].strftime('%H시 %M분')}}</p>
                     <p>경과시간: 수정할 예정</p>
                     <button onclick="close_modal('{{i}}')" type="button">확인</button>
                 </div>
             </div>
-        </div>        
-        {% endif %}  
+        </div>
+        {% endif %}
         {% endfor %}
-            <hr>
-            <form action="/reservation" method="post">
-                {% if user["washer"] %}
-                <button type="submit" value="washer" name="machine" class="custom-button"
-                    style="background-color: skyblue;">예약 취소</button>
-                {% else %}
-                <button type="submit" value="washer" name="machine" class="custom-button"
-                    style="background-color: pink;">세탁 예약</button>
-                {% endif %}
-                {% if user["dryer"] %}
-                <button type="submit" value="dryer" name="machine" class="custom-button"
-                    style="background-color: palegoldenrod;">예약 취소</button>
-                {% else %}
-                <button type="submit" value="dryer" name="machine" class="custom-button"
-                    style="background-color: skyblue;">건조 예약</button>
-                {% endif %}
-            </form>
+        <hr>
+        <form action="/reservation" method="post">
+            {% if user["washer"] %}
+            <button type="submit" value="washer" name="machine" class="custom-button"
+                style="background-color: skyblue;">예약 취소</button>
+            {% else %}
+            <button type="submit" value="washer" name="machine" class="custom-button" style="background-color: pink;">세탁
+                예약</button>
+            {% endif %}
+            {% if user["dryer"] %}
+            <button type="submit" value="dryer" name="machine" class="custom-button"
+                style="background-color: palegoldenrod;">예약 취소</button>
+            {% else %}
+            <button type="submit" value="dryer" name="machine" class="custom-button"
+                style="background-color: skyblue;">건조 예약</button>
+            {% endif %}
+        </form>
 </body>
 
 </html>
