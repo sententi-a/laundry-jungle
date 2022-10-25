@@ -1,14 +1,48 @@
 from http import client
 from flask import Flask, session, request, render_template, redirect, url_for, flash
 from pymongo import MongoClient
-from message import sms
+from addon import sms
 from datetime import datetime
+import atexit
+from apscheduler.schedulers.background import BackgroundScheduler
 import re
 
 client = MongoClient("localhost", 27017)
 db = client.laundry_jungle
 app = Flask(__name__)
 app.secret_key = b"kraftonjungle"
+
+#########################################스케쥴러############################################
+def interval_job():
+    machines = ["a_325", "a_326", "b_325", "b_326"]
+    for machine in machines:
+        target = db.machine.find_one({"machine_id": machine})
+        d = datetime.now() - target["start_time"]
+        if d.seconds // 60 > 120:
+            db.machine.update_one({"machine_id": machine}, {"$set": {"status": True}})
+        elif d.seconds // 60 > 90 and (machine in ["a_325", "a_326"]):
+            db.machine.update_one({"machine_id": machine}, {"$set": {"status": True}})
+
+
+scheduler = BackgroundScheduler()
+scheduler.add_job(func=interval_job, trigger="interval", seconds=3)
+scheduler.start()
+
+atexit.register(lambda: scheduler.shutdown())
+#############################################################################################
+
+
+def send(machine: str, number: int):
+    """
+    유저에게 sms를 보내기 위해 호출하는 함수입니다. machine 정보를 washer 또는 dryer로 설정하면
+    해당 기기를 예약한 유저들에게 문자를 보냅니다.
+    """
+    if not machine in ["washer", "dryer"]:
+        return
+    users = list(map(lambda x: x["phone"], list(db.users.find({machine: True}))))
+    m = "세탁기" if machine == "washer" else "건조기"
+    contents = [f"사용 가능 {m} 안내. https://www.laundry-jungle.com 링크로 접속해 확인하세요", f"{m} 사용 상태 자동 종료 안내. 분실 방지 및 다음 사용자를 위해 빠른 수거 바랍니다.", f"{m}에 남아있는 세탁물 수거 바랍니다."]
+    sms(users, contents[number])
 
 
 @app.route("/")
@@ -83,7 +117,9 @@ def main():
     machine_list = list(db.machine.find({}, {"_id": 0}).sort("machine_id"))
     user = db.users.find_one({"user_id": session["user_id"]})
     # machine_list[0] == 'a_325', machin_list[1] == 'a_326', machine_list[2] == 'b_325', machine_list[3] == 'b_326'
-    return render_template("main.html", machine_list=machine_list, user=user)
+
+    elapsed = [(datetime.now() - machine["start_time"]).seconds // 60 for machine in machine_list]
+    return render_template("main.html", machine_list=machine_list, elapsed=elapsed, user=user)
 
 
 @app.route("/reservation", methods=["POST"])
@@ -123,19 +159,6 @@ def update():
             },
         )
     return redirect(url_for("main"))
-
-
-def alarm(machine: str, number: int):
-    """
-    유저에게 sms를 보내기 위해 호출하는 함수입니다. machine 정보를 washer 또는 dryer로 설정하면
-    해당 기기를 예약한 유저들에게 문자를 보냅니다.
-    """
-    if not machine in ["washer", "dryer"]:
-        return
-    users = list(map(lambda x: x["phone"], list(db.users.find({machine: True}))))
-    m = "세탁기" if machine == "washer" else "건조기"
-    contents = [f"사용 가능 {m} 안내. https://www.laundry-jungle.com 링크로 접속해 확인하세요", f"{m} 사용 상태 자동 종료 안내. 분실 방지 및 다음 사용자를 위해 빠른 수거 바랍니다.", f"{m}에 남아있는 세탁물 수거 바랍니다."]
-    sms(users, contents[number])
 
 
 if __name__ == "__main__":

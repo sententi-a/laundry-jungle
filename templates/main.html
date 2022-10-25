@@ -109,7 +109,7 @@
                     <p>{{machine_list[i]['username']}}({% if machine_list[i]['sex'] == 'female' %}여{% else %}남{% endif
                         %}) {{machine_list[i]['room']}}호</p>
                     <p>시작시간: {{machine_list[i]['start_time'].strftime('%H시 %M분')}}</p>
-                    <p>경과시간: 수정할 예정</p>
+                    <p>경과시간: {{elapsed[i]}}분</p>
                     <button onclick="close_modal('{{i}}')" type="button">확인</button>
                 </div>
             </div>
