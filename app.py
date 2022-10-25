@@ -53,7 +53,7 @@ def signup():
 
         user = {"user_id": user_id, "username": username, "password": password, "sex": sex, "team": team, "room": room, "phone": phone, "washer": False, "dryer": False}
         id_exist = bool(db.users.find_one({"user_id": user_id}))
-        room_valid = re.compile("[0-9]{11}").search(room.replace(" ", ""))
+        room_valid = re.compile("[0-9]{3}").search(room.replace(" ", ""))
         phone_valid = re.compile("[0-9]{11}").search(phone.replace(" ", ""))
         # 전체 입력 확인
         if not (user_id and username and password and sex and team and room and phone):
@@ -79,7 +79,6 @@ def signup():
 
 @app.route("/main")
 def main():
-    session["id"] = "hyunhong1012"
     machine_list = list(db.machine.find({}, {"_id": 0}).sort("machine_id"))
     user = db.users.find_one({"user_id": session["id"]})
     # machine_list[0] == 'a_325', machin_list[1] == 'a_326', machine_list[2] == 'b_325', machine_list[3] == 'b_326'
