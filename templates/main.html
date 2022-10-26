@@ -48,6 +48,27 @@
         </div>
         {% endfor %}
     </div>
+    <hr>
+    <div class="btn-wrapper">
+        <form action="/reservation" method="post">
+            {% if user["washer"] %}
+            <button type="submit" value="washer" name="machine" class="custom-button" style="background-color: pink;">예약
+                취소</button>
+            {% else %}
+            <button type="submit" value="washer" name="machine" class="custom-button"
+                style="background-color: skyblue;">세탁
+                예약</button>
+            {% endif %}
+            {% if user["dryer"] %}
+            <button type="submit" value="dryer" name="machine" class="custom-button" style="background-color: pink;">예약
+                취소</button>
+            {% else %}
+            <button type="submit" value="dryer" name="machine" class="custom-button"
+                style="background-color: palegoldenrod;">건조
+                예약</button>
+            {% endif %}
+        </form>
+    </div>
     <!--modal-->
     {% for i in range(4) %}
     <!--사용가능일 때 모달-->
@@ -101,25 +122,5 @@
 
     {% endif %}
     {% endfor %}
-    <hr>
-    <div class="btn-wrapper">
-        <form action="/reservation" method="post">
-            {% if user["washer"] %}
-            <button type="submit" value="washer" name="machine" class="custom-button" style="background-color: pink;">예약
-                취소</button>
-            {% else %}
-            <button type="submit" value="washer" name="machine" class="custom-button"
-                style="background-color: skyblue;">세탁
-                예약</button>
-            {% endif %}
-            {% if user["dryer"] %}
-            <button type="submit" value="dryer" name="machine" class="custom-button" style="background-color: pink;">예약
-                취소</button>
-            {% else %}
-            <button type="submit" value="dryer" name="machine" class="custom-button"
-                style="background-color: palegoldenrod;">건조
-                예약</button>
-            {% endif %}
-        </form>
-    </div>
+
     {% endblock %}
