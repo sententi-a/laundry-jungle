@@ -169,7 +169,6 @@ html {
 
 .modal_box {
     width: 25vw;
-    height: 30%;
     position: absolute;
     top: 50%;
     left: 50%;
@@ -206,13 +205,41 @@ html {
 #modal3 {
     display: none;
 }
-
-.btn-wrapper {
-    column-gap: 30px;
-    margin: 30px;
-
-    grid-template-columns: 1fr 1fr;
+.modal-btn-wrap {
+    margin: 0 auto;
 }
+.modal-btn-wrap-open{
+    display: flex;
+    justify-content: center;
+    /* grid-template-columns: 1fr 1fr; */
+    margin: 10px auto;
+    margin-bottom: 20px;
+
+}
+
+.modal-btn-wrap-close{
+    display:flex;
+    justify-content: center;
+    /* grid-template-columns: 1fr 1fr 1fr; */
+    margin: 10px auto;
+    margin-bottom: 20px;
+}
+
+.modal-btn-open{
+    width: 4vw;
+    font-size: 1.6rem;
+    font-weight: 500;
+    margin: 10px;
+    text-align: center;
+}
+.modal-btn-close{
+    width: 6vw;
+    font-size: 1.6rem;
+    font-weight: 500;
+    margin: 10px;
+    text-align: center;
+}
+
 
 .custom-button {
     border: 1px solid black;
