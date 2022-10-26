@@ -34,8 +34,11 @@ def send(machine: str):
     sms(users, content)
 
 
-# scheduler: 서버에서 오류 발생하는 지 확인 필수
-def interval_job():
+# scheduler → 서버에서 오류 발생하는 지 확인 필수
+def auto_shutdown():
+    """
+    일정 시간마다 세탁기 및 건조기 시간을 검사하여 특정 시간 이상을 넘어섰을 경우 중단 및 예약자들에게 sms 전송
+    """
     machines = ["a_325", "a_326", "b_325", "b_326"]
     for machine in machines:
         target = db.machine.find_one({"machine_id": machine})
@@ -51,8 +54,32 @@ def interval_job():
             db.machine.update_one({"machine_id": machine}, {"$set": {"status": True}})
 
 
+def cancel_reservation():
+    """
+    예약으로 발생하는 소요를 줄이기 위한 작업, 모든 예약 상태 False로 변경
+    """
+    db.users.update_many({}, {"$set": {"washer": False, "dryer": False}})
+
+
+import shutil
+
+
+def refresh_log():
+    """
+    로그 갱신을 위한 로직
+    """
+    codes = ["a_325", "a_326", "b_325", "b_326"]
+    for code in codes:
+        shutil.copy(f"./log/{code}.csv", f"./log/old/{code}.csv")
+        df = pd.read_csv(f"./log/{code}")
+        new_df = df.tail(2)
+        new_df.to_csv(f"./log/{code}.csv", mode="w", index=False)
+
+
 # scheduler = BackgroundScheduler()
-# scheduler.add_job(func=interval_job, trigger="interval", seconds=60)
+# scheduler.add_job(func=auto_shutdown, trigger="interval", seconds=300)
+# scheduler.add_job(func=cancel_reservation, trigger="cron", week='1-53', day_of_week='0-6', hour='4')
+# scheduler.add_job(func=refresh_log, trigger="cron", month='1-12', day='1th', hour='0', minute='0', seconds='0')
 # scheduler.start()
 
 # atexit.register(lambda: scheduler.shutdown())
@@ -195,7 +222,7 @@ def finish():
 def alert():
     code = request.form.get("machine")
     log = pd.read_csv(f"./log/{code}.csv", dtype=object)
-    phone = [log["phone"][len(log) - 2]]
+    phone = list(log.tail(2)["phone"])[0]
     target = "세탁기" if code in ["a_325", "a_326"] else "건조기"
     content = f"{target}에 남은 물품 수거 바랍니다."
     sms(phone, content)
