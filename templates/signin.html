@@ -1,13 +1,20 @@
 {% extends "base.html" %}
 {% block title %}로그인{% endblock %}
 {% block content %}
-<h2>로그인</h2>
-<div>
+<div class="signin-wrapper">
+	<div class="form-wrapper">
+	<h2>로그인</h2>
+	
 	<form action="/signin" method="POST">
-		<div>ID: <input type="text" name="user_id"/></div>
-		<div>PW: <input type="password" name="password"/></div>
-		<div><button type="submit">로그인</button></div>
+		<div class="input-wrapper">
+			<div><input id="id-input" type="text" name="user_id" placeholder=" 아이디" /></div>
+			<div><input id="pw-input" type="password" name="password" placeholder=" 비밀번호" /></div>
+		</div>
+		<div><button class="signin-btn" type="submit">로그인</button></div>
 	</form>
-	<div><a href="/signup"><button type="button">회원가입</button></a></div>
+	</div>
+	
+	<div class = "signup-wrapper"><p style="font-size:1.3rem">계정이 없으신가요?</p><a href="/signup"><button class="signup-btn" type="button">회원가입</button></a></div>
+</div>
 </div>
 {% endblock %}
