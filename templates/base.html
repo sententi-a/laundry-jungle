@@ -30,14 +30,16 @@
 </head>
 
 <body>
-    <div style="display: flex;">
+    <div class="wrapper">
         <div class='header'>
             런드리 정글 (logo)
+            <div class="upper">
+                {% block upper %}{% endblock %}
+            </div>
         </div>
-        {% block upper %}
-        {% endblock %}
+
+        {% block content %}{% endblock %}
     </div>
-    {% block content %}{% endblock %}
 </body>
 
 </html>

@@ -14,90 +14,92 @@
     <p>325호</p>
     <p>326호</p>
 </div>
-<div class='container'>
-    <div class='container'>
-        <!--세탁기 이미지 + 상태 -->
-        <!--325호 세탁기, 326호 세탁기, 325호 건조기, 326호 건조기 순서-->
-        {% for i in range(4)%}
-        <div class='machine'>
-            <!--사용가능-->
-            {% if machine_list[i]['status'] %}
-            <button onclick="show_modal('{{i}}')" class="transparent_button" data-toggle="modal"
-                data-target="#modal{{ i }}">
-                <img class="open-machine" src="{{url_for('static', filename='washer_open.png')}}">
-                <div class="machine-name">{% if i < 2 %}세탁기{% else %}건조기{% endif %}</div>
-                        <div class="text-on-open-machine">
-                            <p>사용가능</p>
-                        </div>
-            </button>
-            <!--사용중-->
-            {% else %}
-            <button onclick="show_modal('{{i}}')" class="transparent_button">
-                <img class="closed-machine" src="{{url_for('static', filename='washer_close.png')}}">
-                <div class="machine-name">{% if i < 2 %}세탁기{% else %}건조기{% endif %}</div>
-                        <div class="text-on-closed-machine">
-                            {% if machine_list[i]['sex'] == 'female' %}
-                            <p>사용중(여)</p>
-                            {% else %}
-                            <p>사용중(남)</p>
-                            {% endif %}
-                            <p>{{machine_list[i]['start_time'].strftime('%H:%M')}}</p>
-                        </div>
-            </button>
-            {% endif %}
-        </div>
-        {% endfor %}
-    </div>
-    <!--modal-->
-    {% for i in range(4) %}
-    <!--사용가능일 때 모달-->
-    {% if machine_list[i]['status'] %}
-    <div class='modal' id="modal{{i}}" role='dialog'>
-        <div class="modal_background">
-            <div class="modal_box">
-                <h3>{% if machine_list[i]['machine_id'] == 'a_325' %}325호 세탁기
-                    {% elif machine_list[i]['machine_id'] == 'a_326' %}326호 세탁기
-                    {% elif machine_list[i]['machine_id'] == 'b_325' %}325호 건조기
-                    {% elif machine_list[i]['machine_id'] == 'b_326' %}326호 건조기{% endif %} 사용하시겠습니까?</h3>
-                <p>[마지막 사용자 정보]</p>
-                <p>{{machine_list[i]['username']}}({% if machine_list[i]['sex'] == 'female' %}여{% else %}남{% endif
-                    %}) {{machine_list[i]['room']}}호</p>
-                <p>시작시간: {{machine_list[i]['start_time'].strftime('%H시 %M분')}}</p>
-                <form action="/update" , method="post">
-                    <button type="submit" value="{{machine_list[i]['machine_id']}}" name="machine">사용</button>
-                </form>
-                <button onclick="close_modal('{{i}}')" type="button">취소</button>
-            </div>
-        </div>
-    </div>
-    <!--사용중일 때 모달-->
-    {% else %}
-    <div class='modal' id="modal{{i}}" role='dialog'>
-        <div class="modal_background">
-            <div class="modal_box">
-                <h3>{% if machine_list[i]['machine_id'] == 'a_325' %}325호 세탁기
-                    {% elif machine_list[i]['machine_id'] == 'a_326' %}326호 세탁기
-                    {% elif machine_list[i]['machine_id'] == 'b_325' %}325호 건조기
-                    {% elif machine_list[i]['machine_id'] == 'b_326' %}326호 건조기{% endif %} 사용자</h3>
-                <p>{{machine_list[i]['username']}}({% if machine_list[i]['sex'] == 'female' %}여{% else %}남{% endif
-                    %}) {{machine_list[i]['room']}}호</p>
-                <p>시작시간: {{machine_list[i]['start_time'].strftime('%H시 %M분')}}</p>
-                <p>경과시간: {{elapsed[i]}}분</p>
-                <!--해당 기계를 사용중인 유저일 때 즉, session의 user_id와 machine db의 user_id가 같을 때-->
-                {% if user['user_id'] == machine_list[i]['user_id'] %}
-                <form action="/finish" , method="post">
-                    <button type="submit" value="{{machine_list[i]['machine_id']}}" name="machine">사용완료</button>
-                </form>
-                <!--해당 기계를 사용중이 아닌 유저일 때-->
-                {% endif %}
-                <button onclick="close_modal('{{i}}')" type="button">확인</button>
 
-            </div>
+<div class='container'>
+    <!--세탁기 이미지 + 상태 -->
+    <!--325호 세탁기, 326호 세탁기, 325호 건조기, 326호 건조기 순서-->
+    {% for i in range(4)%}
+    <div class='machine'>
+        <!--사용가능-->
+        {% if machine_list[i]['status'] %}
+        <button onclick="show_modal('{{i}}')" class="transparent_button" data-toggle="modal"
+            data-target="#modal{{ i }}">
+            <img class="open-machine" src="{{url_for('static', filename='washer_open.png')}}">
+            <div class="machine-name">{% if i < 2 %}세탁기{% else %}건조기{% endif %}</div>
+                    <div class="text-on-open-machine">
+                        <p>사용가능</p>
+                    </div>
+        </button>
+        <!--사용중-->
+        {% else %}
+        <button onclick="show_modal('{{i}}')" class="transparent_button">
+            <img class="closed-machine" src="{{url_for('static', filename='washer_close.png')}}">
+            <div class="machine-name">{% if i < 2 %}세탁기{% else %}건조기{% endif %}</div>
+                    <div class="text-on-closed-machine">
+                        {% if machine_list[i]['sex'] == 'female' %}
+                        <p>사용중(여)</p>
+                        {% else %}
+                        <p>사용중(남)</p>
+                        {% endif %}
+                        <p>{{machine_list[i]['start_time'].strftime('%H:%M')}}</p>
+                    </div>
+        </button>
+        {% endif %}
+    </div>
+    {% endfor %}
+</div>
+<!--modal-->
+{% for i in range(4) %}
+<!--사용가능일 때 모달-->
+{% if machine_list[i]['status'] %}
+<div class='modal' id="modal{{i}}" role='dialog'>
+    <div class="modal_background">
+        <div class="modal_box">
+            <h3>{% if machine_list[i]['machine_id'] == 'a_325' %}325호 세탁기
+                {% elif machine_list[i]['machine_id'] == 'a_326' %}326호 세탁기
+                {% elif machine_list[i]['machine_id'] == 'b_325' %}325호 건조기
+                {% elif machine_list[i]['machine_id'] == 'b_326' %}326호 건조기{% endif %} 사용하시겠습니까?</h3>
+            <p>[마지막 사용자 정보]</p>
+            <p>{{machine_list[i]['username']}}({% if machine_list[i]['sex'] == 'female' %}여{% else %}남{% endif
+                %}) {{machine_list[i]['room']}}호</p>
+            <p>시작시간: {{machine_list[i]['start_time'].strftime('%H시 %M분')}}</p>
+            <form action="/update" , method="post">
+                <button type="submit" value="{{machine_list[i]['machine_id']}}" name="machine">사용</button>
+            </form>
+            <button onclick="close_modal('{{i}}')" type="button">취소</button>
         </div>
     </div>
-    {% endif %}
-    {% endfor %}
-    <hr>
+</div>
+<!--사용중일 때 모달-->
+{% else %}
+<div class='modal' id="modal{{i}}" role='dialog'>
+    <div class="modal_background">
+        <div class="modal_box">
+            <h3>{% if machine_list[i]['machine_id'] == 'a_325' %}325호 세탁기
+                {% elif machine_list[i]['machine_id'] == 'a_326' %}326호 세탁기
+                {% elif machine_list[i]['machine_id'] == 'b_325' %}325호 건조기
+                {% elif machine_list[i]['machine_id'] == 'b_326' %}326호 건조기{% endif %} 사용자</h3>
+            <p>{{machine_list[i]['username']}}({% if machine_list[i]['sex'] == 'female' %}여{% else %}남{% endif
+                %}) {{machine_list[i]['room']}}호</p>
+            <p>시작시간: {{machine_list[i]['start_time'].strftime('%H시 %M분')}}</p>
+            <p>경과시간: {{elapsed[i]}}분</p>
+            <!--해당 기계를 사용중인 유저일 때 즉, session의 user_id와 machine db의 user_id가 같을 때-->
+            {% if user['user_id'] == machine_list[i]['user_id'] %}
+            <form action="/finish" , method="post">
+                <button type="submit" value="{{machine_list[i]['machine_id']}}" name="machine">사용완료</button>
+            </form>
+            <!--해당 기계를 사용중이 아닌 유저일 때-->
+            {% endif %}
+            <button onclick="close_modal('{{i}}')" type="button">확인</button>
+
+        </div>
+    </div>
+</div>
+
+{% endif %}
+{% endfor %}
+<hr>
+<div class="btn-wrapper">
     <form action="/reservation" method="post">
         {% if user["washer"] %}
         <button type="submit" value="washer" name="machine" class="custom-button" style="background-color: pink;">예약
@@ -111,7 +113,9 @@
             취소</button>
         {% else %}
         <button type="submit" value="dryer" name="machine" class="custom-button"
-            style="background-color: palegoldenrod;">건조 예약</button>
+            style="background-color: palegoldenrod;">건조
+            예약</button>
         {% endif %}
     </form>
-    {% endblock %}
+</div>
+{% endblock %}
