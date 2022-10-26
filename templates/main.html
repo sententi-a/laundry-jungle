@@ -41,8 +41,6 @@
                             {% else %}
                             <p>사용중(남)</p>
                             {% endif %}
-                            <!-- <p>사용중({{machine_list[i]['sex']}})</p> -->
-                            <!-- 위 방식에서 한글 표기 되도록 고쳤습니다! -->
                             <p>{{machine_list[i]['start_time'].strftime('%H:%M')}}</p>
                         </div>
             </button>
