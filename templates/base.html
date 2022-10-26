@@ -1,23 +1,51 @@
 {% with messages = get_flashed_messages() %}
-    {% if messages %}
-        <script>
-            alert("{{ messages[-1] }}")
-        </script>
-    {% endif %}
+{% if messages %}
+<script>
+    alert("{{ messages[-1] }}")
+</script>
+{% endif %}
 {% endwith %}
 
 <!DOCTYPE html>
 <html lang="ko">
-    <head>
-        <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>런드리정글|{% block title %}{% endblock %}</title>
-        <script>
-            
-        </script>
-    </head>
-    <body>
-        <div id="content">{% block content %}{% endblock %}</div>
-    </body>
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!--Local CSS-->
+    <!-- <link rel="stylesheet" type="text/css" href="../static/main_style.css"> -->
+    <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='main_style.css')}}">
+    <!--Font-->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100&display=swap" rel="stylesheet">
+
+    <!-- jQuery-->
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+
+    <!--Local CSS-->
+    <!-- <link rel="stylesheet" type="text/css" href="../static/main_style.css"> -->
+    <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='main_style.css')}}">
+
+    <!--Font-->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100&display=swap" rel="stylesheet">
+
+    <!--Local JS -->
+    <script type="text/javascript" src="{{ url_for('static', filename='main_script.js') }}"></script>
+    <title>런드리정글|{% block title %}{% endblock %}</title>
+    <script>
+
+    </script>
+</head>
+
+<body>
+    <div style="display: flex;">
+        <div class='header'>
+            런드리 정글 (logo)
+        </div>
+        {% block upper %}
+        {% endblock %}
+    </div>
+    {% block content %}{% endblock %}
+</body>
+
 </html>
