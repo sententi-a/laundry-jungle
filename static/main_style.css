@@ -51,6 +51,7 @@ html {
 
 .laundry-room>div {
     width: 50%;
+    min-width: 180px;
     background-color: #2b6330;
     color: white;
     margin: 0 auto;
@@ -61,8 +62,21 @@ html {
     font-size: 2rem;
 }
 
+.btn-wrapper {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    width: 50%;
+    min-width: 180px;
+    color: white;
+    margin: 0 auto;
+    margin-bottom: 20px;
+    font-weight: 500;
+    font-size: 2rem;
+}
+
 .machine-container {
     width: 40vw;
+    min-width: 380px;
     justify-content: center;
     margin: 0 auto;
 }
@@ -87,13 +101,14 @@ html {
 /*열려 있는 세탁기 이미지*/
 .open-machine {
     width: 15vw;
-
+    min-width: 180px;
 }
 
 /*닫혀 있는 세탁기 이미지*/
 .closed-machine {
     padding-left: 40px;
     width: 15vw;
+    min-width: 180px;
 }
 
 .machine-name {
@@ -123,7 +138,10 @@ html {
 .text-on-open-machine {
     position: absolute;
     width: 30%;
+    min-width: 100px;
+    line-height: 0.5rem;
     height: 20%;
+    min-height: 36px;
     text-align: center;
     top: 41%;
     left: 50%;
@@ -141,6 +159,7 @@ html {
 .text-on-closed-machine {
     position: absolute;
     width: 30%;
+    min-width: 100px;
     line-height: 0.5rem;
     text-align: center;
     top: 41%;
@@ -269,6 +288,7 @@ html {
     border: 1px solid black;
     border-radius: 10px;
     width: 20%;
+    min-width: 180px;
     font-size: 1.8rem;
     font-weight: 500;
 

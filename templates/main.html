@@ -10,7 +10,7 @@
 {% endblock %}
 
 {% block content %}
-<div class=laundry-room>
+<div class="laundry-room">
     <div>325호</div>
     <div>326호</div>
 </div>
@@ -51,23 +51,26 @@
     </div>
 </div>
 <hr>
-<div class="btn-wrapper">
+<div>
     <form action="/reservation" method="post">
-        {% if user["washer"] %}
-        <button type="submit" value="washer" name="machine" class="custom-button" style="background-color: pink;">예약
-            취소</button>
-        {% else %}
-        <button type="submit" value="washer" name="machine" class="custom-button" style="background-color: skyblue;">세탁
-            예약</button>
-        {% endif %}
-        {% if user["dryer"] %}
-        <button type="submit" value="dryer" name="machine" class="custom-button" style="background-color: pink;">예약
-            취소</button>
-        {% else %}
-        <button type="submit" value="dryer" name="machine" class="custom-button"
-            style="background-color: palegoldenrod;">건조
-            예약</button>
-        {% endif %}
+        <div class="btn-wrapper">
+            {% if user["washer"] %}
+            <button type="submit" value="washer" name="machine" class="custom-button" style="background-color: pink;">예약
+                취소</button>
+            {% else %}
+            <button type="submit" value="washer" name="machine" class="custom-button"
+                style="background-color: skyblue;">세탁
+                예약</button>
+            {% endif %}
+            {% if user["dryer"] %}
+            <button type="submit" value="dryer" name="machine" class="custom-button" style="background-color: pink;">예약
+                취소</button>
+            {% else %}
+            <button type="submit" value="dryer" name="machine" class="custom-button"
+                style="background-color: palegoldenrod;">건조
+                예약</button>
+            {% endif %}
+        </div>
     </form>
 </div>
 <!--modal-->
@@ -87,7 +90,8 @@
             <p>시작시간: {{machine_list[i]['start_time'].strftime('%H시 %M분')}}</p>
             <div class="modal-btn-wrap-open">
                 <form action="/update" , method="post">
-                    <button class="modal-btn-open" type="submit" value="{{machine_list[i]['machine_id']}}" name="machine">사용</button>
+                    <button class="modal-btn-open" type="submit" value="{{machine_list[i]['machine_id']}}"
+                        name="machine">사용</button>
                 </form>
                 <button class="modal-btn-open" onclick="close_modal('{{i}}')" type="button">취소</button>
             </div>
@@ -110,17 +114,19 @@
             <!--해당 기계를 사용중인 유저일 때 즉, session의 user_id와 machine db의 user_id가 같을 때-->
             {% if user['user_id'] == machine_list[i]['user_id'] %}
             <div class="modal-btn-wrap">
-            <div class="modal-btn-wrap-close">
-                <form action="/finish" , method="post">
-                    <button class="modal-btn-close" type="submit" value="{{machine_list[i]['machine_id']}}" name="machine">사용완료</button>
-                </form>
-                <form action="/alert" , method="post">
-                    <button class="modal-btn-close" type="submit" value="{{machine_list[i]['machine_id']}}" name="machine">수거 필요</button>
-                </form>
-                <!--해당 기계를 사용중이 아닌 유저일 때-->
-                {% endif %}
-                <button class="modal-btn-close" onclick="close_modal('{{i}}')" type="button">확인</button>
-            </div>
+                <div class="modal-btn-wrap-close">
+                    <form action="/finish" , method="post">
+                        <button class="modal-btn-close" type="submit" value="{{machine_list[i]['machine_id']}}"
+                            name="machine">사용완료</button>
+                    </form>
+                    <form action="/alert" , method="post">
+                        <button class="modal-btn-close" type="submit" value="{{machine_list[i]['machine_id']}}"
+                            name="machine">수거 필요</button>
+                    </form>
+                    <!--해당 기계를 사용중이 아닌 유저일 때-->
+                    {% endif %}
+                    <button class="modal-btn-close" onclick="close_modal('{{i}}')" type="button">확인</button>
+                </div>
             </div>
         </div>
     </div>
