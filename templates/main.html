@@ -31,6 +31,7 @@
         <div class='header'>
             런드리 정글 (logo)
         </div>
+        <span>{{user["user_id"]}}님, 안녕하세요.</span>
         <a href="/logout">
             <button class="lgbtn">logout</button>
         </a>
@@ -119,18 +120,19 @@
         <hr>
         <form action="/reservation" method="post">
             {% if user["washer"] %}
-            <button type="submit" value="washer" name="machine" class="custom-button"
-                style="background-color: skyblue;">예약 취소</button>
+            <button type="submit" value="washer" name="machine" class="custom-button" style="background-color: pink;">예약
+                취소</button>
             {% else %}
-            <button type="submit" value="washer" name="machine" class="custom-button" style="background-color: pink;">세탁
+            <button type="submit" value="washer" name="machine" class="custom-button"
+                style="background-color: skyblue;">세탁
                 예약</button>
             {% endif %}
             {% if user["dryer"] %}
-            <button type="submit" value="dryer" name="machine" class="custom-button"
-                style="background-color: palegoldenrod;">예약 취소</button>
+            <button type="submit" value="dryer" name="machine" class="custom-button" style="background-color: pink;">예약
+                취소</button>
             {% else %}
             <button type="submit" value="dryer" name="machine" class="custom-button"
-                style="background-color: skyblue;">건조 예약</button>
+                style="background-color: palegoldenrod;">건조 예약</button>
             {% endif %}
         </form>
 </body>

@@ -1,48 +1,55 @@
 from http import client
 from flask import Flask, session, request, render_template, redirect, url_for, flash
 from pymongo import MongoClient
-from addon import sms
 from datetime import datetime
 import atexit
 from apscheduler.schedulers.background import BackgroundScheduler
 import re
+
+from addon import sms
 
 client = MongoClient("localhost", 27017)
 db = client.laundry_jungle
 app = Flask(__name__)
 app.secret_key = b"kraftonjungle"
 
-#########################################스케쥴러############################################
+
+def send(machine: str):
+    """
+    예약 유저에게 sms를 보내기 위해 호출하는 함수입니다. machine 정보를 washer 또는 dryer로 설정하면
+    해당 기기를 예약한 유저들에게 문자를 보냅니다.
+    """
+    if not machine in ["washer", "dryer"]:
+        return TypeError
+    users = list(map(lambda x: x["phone"], list(db.users.find({machine: True}))))
+    m = "세탁기" if machine == "washer" else "건조기"
+    content = f"사용 가능 {m} 안내. https://www.laundry-jungle.com 링크로 접속해 확인하세요"
+    sms(users, content)
+
+
+# scheduler: 서버에서 오류 발생하는 지 확인 필수
 def interval_job():
     machines = ["a_325", "a_326", "b_325", "b_326"]
     for machine in machines:
         target = db.machine.find_one({"machine_id": machine})
         d = datetime.now() - target["start_time"]
-        if d.seconds // 60 > 120:
+        content = "사용 상태 자동 종료 안내. 분실 방지 및 다음 사용자를 위해 빠른 수거 바랍니다."
+        if d.seconds // 60 > 120 and target["status"]:
+            sms([target["phone"]], "건조기" + content)
+            send("dryer")
             db.machine.update_one({"machine_id": machine}, {"$set": {"status": True}})
-        elif d.seconds // 60 > 90 and (machine in ["a_325", "a_326"]):
+        elif d.seconds // 60 > 90 and (machine in ["a_325", "a_326"]) and target["status"]:
+            sms([target["phone"]], "세탁기" + content)
+            send("washer")
             db.machine.update_one({"machine_id": machine}, {"$set": {"status": True}})
 
 
-scheduler = BackgroundScheduler()
-scheduler.add_job(func=interval_job, trigger="interval", seconds=3)
-scheduler.start()
+# scheduler = BackgroundScheduler()
+# scheduler.add_job(func=interval_job, trigger="interval", seconds=60)
+# scheduler.start()
 
-atexit.register(lambda: scheduler.shutdown())
-#############################################################################################
-
-
-def send(machine: str, number: int):
-    """
-    유저에게 sms를 보내기 위해 호출하는 함수입니다. machine 정보를 washer 또는 dryer로 설정하면
-    해당 기기를 예약한 유저들에게 문자를 보냅니다.
-    """
-    if not machine in ["washer", "dryer"]:
-        return
-    users = list(map(lambda x: x["phone"], list(db.users.find({machine: True}))))
-    m = "세탁기" if machine == "washer" else "건조기"
-    contents = [f"사용 가능 {m} 안내. https://www.laundry-jungle.com 링크로 접속해 확인하세요", f"{m} 사용 상태 자동 종료 안내. 분실 방지 및 다음 사용자를 위해 빠른 수거 바랍니다.", f"{m}에 남아있는 세탁물 수거 바랍니다."]
-    sms(users, contents[number])
+# atexit.register(lambda: scheduler.shutdown())
+# -----------------------------------------------------------------------------------------------
 
 
 @app.route("/")
@@ -125,6 +132,7 @@ def main():
 @app.route("/reservation", methods=["POST"])
 def book():
     user = db.users.find_one({"user_id": session["user_id"]})
+    print(session["user_id"])
     machine = request.form.get("machine")
     alter = False if user[machine] else True
     db.users.update_one({"user_id": session["user_id"]}, {"$set": {machine: alter}})
@@ -157,7 +165,18 @@ def update():
                     "start_time": datetime.now(),
                 }
             },
+        target = "washer" if code in ["a_325", "a_326"] else "dryer"
+        db.users.update_one({"user_id": session["user_id"]}, {"$set": {target: False}})
         )
+    return redirect(url_for("main"))
+
+
+@app.route("/finish", method=["POST"])
+def finish():
+    code = request.form.get("machine")
+    db.machine.update_one({"machine_id": code}, {"$set": {"status": True}})
+    target = "washer" if code in ["a_325", "a_326"] else "dryer"
+    send(target)
     return redirect(url_for("main"))
 
 
