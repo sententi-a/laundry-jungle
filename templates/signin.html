@@ -3,18 +3,22 @@
 {% block content %}
 <div class="signin-wrapper">
 	<div class="form-wrapper">
-	<h2>로그인</h2>
-	
-	<form action="/signin" method="POST">
-		<div class="input-wrapper">
-			<div><input id="id-input" type="text" name="user_id" placeholder=" 아이디" /></div>
-			<div><input id="pw-input" type="password" name="password" placeholder=" 비밀번호" /></div>
-		</div>
-		<div><button class="signin-btn" type="submit">로그인</button></div>
-	</form>
+		<h2>SIGN IN</h2>
+
+		<form action="/signin" method="POST">
+			<div class="input-wrapper">
+				<div><input id="id-input" type="text" name="user_id" placeholder="ID" />
+				</div>
+				<div><input id="pw-input" type="password" name="password" placeholder="PASSWORD" /></div>
+			</div>
+			<div><button class="signin-btn" type="submit">SIGN IN</button></div>
+		</form>
 	</div>
-	
-	<div class = "signup-wrapper"><p style="font-size:1.3rem">계정이 없으신가요?</p><a href="/signup"><button class="signup-btn" type="button">회원가입</button></a></div>
+
+	<div class="signup-wrapper">
+		<p style="font-size:1.3rem">create account</p><a href="/signup"><button class="signup-btn" type="button">SIGN
+				UP</button></a>
+	</div>
 </div>
 </div>
 {% endblock %}

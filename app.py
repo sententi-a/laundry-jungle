@@ -126,6 +126,9 @@ def signup():
         id_exist = bool(db.users.find_one({"user_id": user_id}))
         room_valid = re.compile("[0-9]{3}").search(room.replace(" ", ""))
         phone_valid = re.compile("[0-9]{11}").search(phone.replace(" ", ""))
+
+        id_valid = re.compile("[a-zA-Z0-9]{4,20}").search(user_id.replace(" ", ""))
+        pw_valid = re.compile("[a-zA-Z0-9!@#$%^&*]{4,20}").search(password.replace(" ", ""))
         # 전체 입력 확인
         if not (user_id and username and password and sex and team and room and phone):
             flash("정보를 모두 입력해 주세요")
@@ -141,6 +144,12 @@ def signup():
         # phone 숫자, 길이 검사
         elif len(phone) != 11 or not phone_valid:
             flash("휴대폰 번호를 확인하세요")
+            return render_template("signup.html")
+        elif not id_valid:
+            flash("아이디 생성 규칙을 확인하세요")
+            return render_template("signup.html")
+        elif not pw_valid:
+            flash("비밀번호 생성 규칙을 확인하세요")
             return render_template("signup.html")
         else:
             db.users.insert_one(user)

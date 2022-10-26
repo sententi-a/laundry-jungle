@@ -13,14 +13,13 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!--Font-->
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100&display=swap" rel="stylesheet">
     <!-- jQuery-->
     <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
     <!--Local CSS-->
     <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='main_style.css')}}">
     <!--Font-->
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700&display=swap"
+        rel="stylesheet">
     <!--Local JS -->
     <script type="text/javascript" src="{{ url_for('static', filename='main_script.js') }}"></script>
     <title>런드리정글|{% block title %}{% endblock %}</title>
@@ -32,7 +31,7 @@
 <body>
     <div class="wrapper">
         <div class='header'>
-            런드리 정글 (logo)
+            LAUNDRY JUNGLE
             <div class="upper">
                 {% block upper %}{% endblock %}
             </div>

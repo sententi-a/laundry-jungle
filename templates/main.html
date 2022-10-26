@@ -1,18 +1,18 @@
 {% extends "base.html" %}
 
-{% block title %} 사용하기 {% endblock %}
+{% block title %}사용하기{% endblock %}
 
 {% block upper %}
-<span>{{user["user_id"]}}님, 안녕하세요.</span>
-<a href="/logout">
-    <button class="lgbtn">로그아웃</button>
-</a>
+<span style="color:white; margin-left: 44px;">Good luck, {{user["user_id"]}}</span>
+<a style="float: right;" href="/logout"><img style="height:22px;"
+        src="{{url_for('static', filename='logout.png')}}"></a>
+<hr>
 {% endblock %}
 
 {% block content %}
 <div class="laundry-room">
-    <div>325호</div>
-    <div>326호</div>
+    <div>325</div>
+    <div>326</div>
 </div>
 <div class="machine-container">
     <div class='container-body'>
@@ -27,7 +27,7 @@
                 <img class="machine-img open-machine" src="{{url_for('static', filename='washer_open.png')}}">
                 <div class="machine-name">{% if i < 2 %}세탁기{% else %}건조기{% endif %}</div>
                         <div class="text-on-open-machine">
-                            <p>사용가능</p>
+                            <p>사용 가능</p>
                         </div>
             </button>
             <!--사용중-->
@@ -53,25 +53,37 @@
 <hr>
 <div>
     <form action="/reservation" method="post">
-        <div class="btn-wrapper">
-            {% if user["washer"] %}
-            <button type="submit" value="washer" name="machine" class="custom-button" style="background-color: pink;">예약
-                취소</button>
-            {% else %}
-            <button type="submit" value="washer" name="machine" class="custom-button"
-                style="background-color: skyblue;">세탁
-                예약</button>
-            {% endif %}
-            {% if user["dryer"] %}
-            <button type="submit" value="dryer" name="machine" class="custom-button" style="background-color: pink;">예약
-                취소</button>
-            {% else %}
-            <button type="submit" value="dryer" name="machine" class="custom-button"
-                style="background-color: palegoldenrod;">건조
-                예약</button>
-            {% endif %}
+        <div>
+            <div>
+                {% if user["washer"] %}
+                <button type="submit" value="washer" name="machine" class="custom-button"
+                    style="background-color: rgb(225, 0, 159);">예약
+                    취소</button>
+                {% else %}
+                <button type="submit" value="washer" name="machine" class="custom-button"
+                    style="background-color: rgb(0, 220, 220);">세탁
+                    예약</button>
+                {% endif %}
+            </div>
+
+            <div>
+                {% if user["dryer"] %}
+                <button type="submit" value="dryer" name="machine" class="custom-button"
+                    style="background-color: rgb(225, 0, 159);">예약
+                    취소</button>
+                {% else %}
+                <button type="submit" value="dryer" name="machine" class="custom-button"
+                    style="background-color: rgb(245, 235, 0);">건조
+                    예약</button>
+                {% endif %}
+            </div>
         </div>
     </form>
+    <img style="width:50px; height: 50px; margin-top: 30px;" src="{{url_for('static', filename='lj_logo.png')}}"
+        alt="logo">
+    <p style="color: white;">Team Laundry-jungle
+        <br>Contact: Laundry-jungle@gmail.com
+    </p>
 </div>
 <!--modal-->
 {% for i in range(4) %}
@@ -117,7 +129,7 @@
                 <div class="modal-btn-wrap-close">
                     <form action="/finish" , method="post">
                         <button class="modal-btn-close" type="submit" value="{{machine_list[i]['machine_id']}}"
-                            name="machine">사용완료</button>
+                            name="machine">사용 완료</button>
                     </form>
                     <form action="/alert" , method="post">
                         <button class="modal-btn-close" type="submit" value="{{machine_list[i]['machine_id']}}"

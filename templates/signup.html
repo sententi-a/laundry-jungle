@@ -1,42 +1,42 @@
 {% extends "base.html" %}
 {% block title %}회원가입{% endblock %}
 {% block content %}
-<h2>회원가입</h2>
+<h2 style="color: white; font-size:2.4rem;">SIGN UP</h2>
 <div class="signup-wrapper">
     <form action="/signup" method="POST">
-        <div id="signup-box"><label id="label-box" for="ID:">ID:<input id="singnup-input" type="text"
-                    name="user_id" /></label></div>
-        <div id="signup-box"><label id="label-box" for="PW:">PW:<input id="singnup-input" type="password"
-                    name="password" /></label>
+        <div id="signup-box"><label id="label-box" for="ID:">ID:<input id="singnup-input"
+                    placeholder="[a-zA-Z0-9]{4,20}" type="text" name="user_id" /></label></div>
+        <div id="signup-box"><label id="label-box" for="PW:">PW:<input id="singnup-input"
+                    placeholder="[a-zA-Z0-9!@#$%^&*]{4,20}" type="password" name="password" /></label>
         </div>
         <div id="signup-box"><label id="label-box" for="NAME:">NAME:<input id="singnup-input" type="text"
                     name="username" /></label>
         </div>
-        <div id="signup-box">
+        <div id="signup-box" style="margin-right: 15%;">
             <label id="label-box" for="SEX:">
-                SEX: <select id="singnup-input" style="width: 12.6vw;" name="sex">
+                SEX:<select id="singnup-input" style="width: 70%;" name="sex">
                     <option value="">SELECT</option>
                     <option value="male">MALE</option>
                     <option value="female">FEMALE</option>
                 </select>
             </label>
         </div>
-        <div id="signup-box">
+        <div id="signup-box" style="margin-right: 15%;">
             <label id="label-box" for="TEAM:">
-                TEAM:<select id="singnup-input" style="width: 12.6vw;" name="team">
+                TEAM:<select id="singnup-input" style="width: 70%;" name="team">
                     <option value="">SELECT</option>
                     <option value="male">RED</option>
                     <option value="female">BLUE</option>
                 </select>
             </label>
         </div>
-        <div id="signup-box"><label id="label-box" for="ROOM:">ROOM:<input id="singnup-input" type="text"
-                    name="room" /></label></div>
+        <div id="signup-box"><label id="label-box" for="ROOM:">ROOM:<input id="singnup-input" type="text" name="room"
+                    placeholder="[0-9]{3}" /></label></div>
         <div id="signup-box"><label id="label-box" for="PHONE:">PHONE:<input id="singnup-input" type="text" name="phone"
-                    placeholder="숫자만 입력해 주세요" /></label></div>
+                    placeholder="[0-9]{11}" /></label></div>
         <div id="signup-box">
-            <button id="signup-button" type="submit">가입하기</button>
-            <a href="/"><button id="signup-button" style="background-color:grey" type="button">돌아가기</button></a>
+            <button id="signup-button" type="submit">SIGN UP</button>
+            <a href="/"><button id="signup-button" style="background-color:grey" type="button">BACK</button></a>
         </div>
     </form>
 
