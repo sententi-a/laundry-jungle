@@ -167,7 +167,6 @@ def update():
             },
         target = "washer" if code in ["a_325", "a_326"] else "dryer"
         db.users.update_one({"user_id": session["user_id"]}, {"$set": {target: False}})
-        )
     return redirect(url_for("main"))
 
 
