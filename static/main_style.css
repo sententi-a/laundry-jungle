@@ -29,7 +29,8 @@ html {
 
 }
 
-.lgbtn{
+
+.lgbtn {
     font-size: 1.6rem;
     font-weight: 500;
 }
@@ -59,11 +60,13 @@ html {
     font-weight: 500;
     font-size: 2rem;
 }
-.machine-container{
+
+.machine-container {
     width: 40vw;
     justify-content: center;
     margin: 0 auto;
 }
+
 .container-body {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -86,6 +89,7 @@ html {
     width: 15vw;
 
 }
+
 /*닫혀 있는 세탁기 이미지*/
 .closed-machine {
     padding-left: 40px;
@@ -157,7 +161,7 @@ html {
 }
 
 .modal_background {
-    
+
     position: fixed;
     top: 0;
     left: 0;
@@ -176,15 +180,18 @@ html {
     background-color: white;
     border-radius: 10px;
 }
-.modal_box > h3 {
+
+.modal_box>h3 {
     font-size: 2rem;
     margin: 15px;
     margin-top: 25px;
 }
-.modal_box > h5 {
+
+.modal_box>h5 {
     font-size: 1.8rem;
     margin: 0;
 }
+
 .modal_box>p {
     font-size: 1.6rem;
     margin: 5px auto;
@@ -205,10 +212,12 @@ html {
 #modal3 {
     display: none;
 }
+
 .modal-btn-wrap {
     margin: 0 auto;
 }
-.modal-btn-wrap-open{
+
+.modal-btn-wrap-open {
     display: flex;
     justify-content: center;
     /* grid-template-columns: 1fr 1fr; */
@@ -217,15 +226,15 @@ html {
 
 }
 
-.modal-btn-wrap-close{
-    display:flex;
+.modal-btn-wrap-close {
+    display: flex;
     justify-content: center;
     /* grid-template-columns: 1fr 1fr 1fr; */
     margin: 10px auto;
     margin-bottom: 20px;
 }
 
-.modal-btn-open{
+.modal-btn-open {
     width: 6vw;
     height: 4vh;
     font-size: 1.8rem;
@@ -235,7 +244,8 @@ html {
     border-radius: 10px;
     border: none;
 }
-.modal-btn-close{
+
+.modal-btn-close {
     width: 6vw;
     height: 4vh;
     font-size: 1.8rem;
@@ -245,10 +255,12 @@ html {
     border-radius: 10px;
     border: none;
 }
-.modal-btn-open:hover{
+
+.modal-btn-open:hover {
     filter: brightness(85%);
 }
-.modal-btn-close:hover{
+
+.modal-btn-close:hover {
     filter: brightness(85%);
 }
 
@@ -263,14 +275,15 @@ html {
 }
 
 /***signin.html***/
-.signin-wrapper{
+.signin-wrapper {
     justify-content: center;
     text-align: center;
 }
 
-.form-wrapper > h2{
+.form-wrapper>h2 {
     font-size: 2.4rem;
 }
+
 .form-wrapper {
     justify-content: center;
     border: solid 2px #1ccb6e;
@@ -278,51 +291,94 @@ html {
     width: 40%;
     margin: 30px auto;
     margin-bottom: 0;
-    padding:20px;
+    padding: 20px;
     padding-top: 0px;
     background-color: #f0fff7;
 }
 
-.input-wrapper{
+.input-wrapper {
     vertical-align: middle;
 }
 
-#id-input{
+#id-input {
     font-size: 1.6rem;
     width: 12vw;
+    min-width: 100px;
     height: 35px;
     border: solid 1px #e3e3e3;
     border-radius: 5px;
 }
 
-#pw-input{
+#pw-input {
     font-size: 1.6rem;
     width: 12vw;
+    min-width: 100px;
     height: 35px;
     border: solid 1px #e3e3e3;
     border-radius: 5px;
+
 }
-.signin-btn{
+
+.signin-btn {
     margin-top: 20px;
     font-size: 1.8rem;
     font-weight: 600;
     width: 12vw;
+    min-width: 100px;
     height: 40px;
     background-color: #1ccb6e;
     border: transparent;
     border-radius: 5px;
     color: white;
 }
-.signup-wrapper{
+
+.signup-wrapper {
     margin: 0 auto;
     padding: 0;
 }
 
-.signup-btn{
+.signup-btn {
     border: transparent;
     border-radius: 5px;
     font-size: 1.8rem;
     font-weight: 600;
     width: 12vw;
+    min-width: 100px;
     height: 40px;
+}
+
+#signup-box {
+    float: right;
+    margin-right: 30%;
+}
+
+#signup-button {
+    width: 96px;
+    margin-top: 20px;
+    font-size: 1.8rem;
+    font-weight: 600;
+    height: 40px;
+    background-color: #28a9e6;
+    border: transparent;
+    border-radius: 5px;
+    color: white;
+}
+
+#label-box {
+    font-size: 1.6rem;
+}
+
+.signup-wrapper {
+    width: 40%;
+}
+
+#singnup-input {
+    font-size: 1.6rem;
+    width: 12vw;
+    min-width: 100px;
+    height: 35px;
+    border: solid 1px #e3e3e3;
+    border-radius: 5px;
+    margin-bottom: 5px;
+    margin-left: 7px;
 }
