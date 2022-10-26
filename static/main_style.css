@@ -7,7 +7,7 @@ html {
 }
 
 .wrapper {
-    width: 50vw;
+    width: 100vw;
     justify-content: center;
     text-align: center;
 }
@@ -37,19 +37,19 @@ html {
 /***main.html***/
 .laundry-room {
     display: grid;
-    width: 80%;
+    width: 40vw;
+    margin: 0 auto;
     grid-template-columns: 1fr 1fr;
     text-align: center;
     font-size: 1.5rem;
-    padding-left: 8%;
+    /* padding-left: 8%; */
     margin-top: 60px;
     margin-bottom: -1%;
     /* margin-left: 8.5%; */
 }
 
-
 .laundry-room>div {
-    width: 40%;
+    width: 50%;
     background-color: #2b6330;
     color: white;
     margin: 0 auto;
@@ -59,12 +59,16 @@ html {
     font-weight: 500;
     font-size: 2rem;
 }
-
-.container {
-    width: 80%;
+.machine-container{
+    width: 40vw;
+    justify-content: center;
+    margin: 0 auto;
+}
+.container-body {
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-template-rows: 1fr 1fr;
+    column-gap: 0;
     row-gap: 20px;
 }
 
@@ -79,13 +83,13 @@ html {
 
 /*열려 있는 세탁기 이미지*/
 .open-machine {
-    width: 20vw;
+    width: 15vw;
 
 }
 /*닫혀 있는 세탁기 이미지*/
 .closed-machine {
     padding-left: 40px;
-    width: 20vw;
+    width: 15vw;
 }
 
 .machine-name {
@@ -153,7 +157,7 @@ html {
 }
 
 .modal_background {
-    width: 50%;
+    
     position: fixed;
     top: 0;
     left: 0;
@@ -164,7 +168,7 @@ html {
 }
 
 .modal_box {
-    width: 40%;
+    width: 25vw;
     height: 30%;
     position: absolute;
     top: 50%;
@@ -173,8 +177,17 @@ html {
     background-color: white;
     border-radius: 10px;
 }
-
+.modal_box > h3 {
+    font-size: 2rem;
+    margin: 15px;
+    margin-top: 25px;
+}
+.modal_box > h5 {
+    font-size: 1.8rem;
+    margin: 0;
+}
 .modal_box>p {
+    font-size: 1.6rem;
     margin: 5px auto;
 }
 

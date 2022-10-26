@@ -14,8 +14,8 @@
     <div>325호</div>
     <div>326호</div>
 </div>
-
-<div class='container'>
+<div class="machine-container">
+<div class='container-body'>
     <!--세탁기 이미지 + 상태 -->
     <!--325호 세탁기, 326호 세탁기, 325호 건조기, 326호 건조기 순서-->
     {% for i in range(4)%}
@@ -49,6 +49,7 @@
     </div>
     {% endfor %}
 </div>
+</div>
 <hr>
 <div class="btn-wrapper">
     <form action="/reservation" method="post">
@@ -80,7 +81,7 @@
                 {% elif machine_list[i]['machine_id'] == 'a_326' %}326호 세탁기
                 {% elif machine_list[i]['machine_id'] == 'b_325' %}325호 건조기
                 {% elif machine_list[i]['machine_id'] == 'b_326' %}326호 건조기{% endif %} 사용하시겠습니까?</h3>
-            <p>[마지막 사용자 정보]</p>
+            <h5>[마지막 사용자 정보]</h5>
             <p>{{machine_list[i]['username']}}({% if machine_list[i]['sex'] == 'female' %}여{% else %}남{% endif
                 %}) {{machine_list[i]['room']}}호</p>
             <p>시작시간: {{machine_list[i]['start_time'].strftime('%H시 %M분')}}</p>
