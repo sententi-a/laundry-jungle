@@ -72,6 +72,22 @@ html {
     position: relative;
 }
 
+.machine-img:hover {
+    -webkit-filter: drop-shadow(4px 4px 4px #2b6330) drop-shadow(-4px -4px 4px #2b6330);
+    filter: drop-shadow(4px 4px 4px #2b6330) drop-shadow(-4px -4px 4px #2b6330);
+}
+
+/*열려 있는 세탁기 이미지*/
+.open-machine {
+    width: 20vw;
+
+}
+/*닫혀 있는 세탁기 이미지*/
+.closed-machine {
+    padding-left: 40px;
+    width: 20vw;
+}
+
 .machine-name {
     position: absolute;
     width: 30%;
@@ -87,18 +103,7 @@ html {
     border: solid 2px black;
 }
 
-/*열려 있는 세탁기 이미지*/
-.open-machine {
-    width: 20vw;
 
-}
-
-/*닫혀 있는 세탁기 이미지*/
-.closed-machine {
-    padding-left: 40px;
-    width: 20vw;
-    
-}
 
 /*내가 사용하는 세탁기/건조기*/
 .my-use {
