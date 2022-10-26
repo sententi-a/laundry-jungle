@@ -24,7 +24,7 @@ html {
     font-weight: 400;
     font-size: 1.8rem;
 }
-
+/***main.html***/
 .laundry-room {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -192,4 +192,69 @@ html {
     font-size: 1.8rem;
     font-weight: 500;
 
+}
+
+/***signin.html***/
+.signin-wrapper{
+    justify-content: center;
+    text-align: center;
+}
+
+.form-wrapper > h2{
+    font-size: 2.4rem;
+}
+.form-wrapper {
+    justify-content: center;
+    border: solid 2px #1ccb6e;
+    border-radius: 10px;
+    width: 40%;
+    margin: 30px auto;
+    margin-bottom: 0;
+    padding:20px;
+    padding-top: 0px;
+    background-color: #f0fff7;
+}
+
+.input-wrapper{
+    vertical-align: middle;
+}
+
+#id-input{
+    font-size: 1.6rem;
+    width: 12vw;
+    height: 35px;
+    border: solid 1px #e3e3e3;
+    border-radius: 5px;
+}
+
+#pw-input{
+    font-size: 1.6rem;
+    width: 12vw;
+    height: 35px;
+    border: solid 1px #e3e3e3;
+    border-radius: 5px;
+}
+.signin-btn{
+    margin-top: 20px;
+    font-size: 1.8rem;
+    font-weight: 600;
+    width: 12vw;
+    height: 40px;
+    background-color: #1ccb6e;
+    border: transparent;
+    border-radius: 5px;
+    color: white;
+}
+.signup-wrapper{
+    margin: 0 auto;
+    padding: 0;
+}
+
+.signup-btn{
+    border: transparent;
+    border-radius: 5px;
+    font-size: 1.8rem;
+    font-weight: 600;
+    width: 12vw;
+    height: 40px;
 }
