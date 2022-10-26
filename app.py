@@ -171,7 +171,7 @@ def update():
     return redirect(url_for("main"))
 
 
-@app.route("/finish", method=["POST"])
+@app.route("/finish", methods=["POST"])
 def finish():
     code = request.form.get("machine")
     db.machine.update_one({"machine_id": code}, {"$set": {"status": True}})
