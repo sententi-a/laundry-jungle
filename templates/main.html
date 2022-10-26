@@ -88,6 +88,9 @@
                 <form action="/finish" , method="post">
                     <button type="submit" value="{{machine_list[i]['machine_id']}}" name="machine">사용완료</button>
                 </form>
+                <form action="/alert" , method="post">
+                    <button type="submit" value="{{machine_list[i]['machine_id']}}" name="machine">수거 필요</button>
+                </form>
                 <!--해당 기계를 사용중이 아닌 유저일 때-->
                 {% endif %}
                 <button onclick="close_modal('{{i}}')" type="button">확인</button>

@@ -3,15 +3,22 @@ from flask import Flask, session, request, render_template, redirect, url_for, f
 from pymongo import MongoClient
 from datetime import datetime
 import atexit
+import pandas as pd
+import csv
 from apscheduler.schedulers.background import BackgroundScheduler
 import re
-
 from addon import sms
 
 client = MongoClient("localhost", 27017)
 db = client.laundry_jungle
 app = Flask(__name__)
 app.secret_key = b"kraftonjungle"
+
+
+def add_row(code, lst):
+    with open(f"./log/{code}.csv", "a", newline="") as file:
+        wr = csv.writer(file)
+        wr.writerow(lst)
 
 
 def send(machine: str):
@@ -168,6 +175,9 @@ def update():
         )
         target = "washer" if code in ["a_325", "a_326"] else "dryer"
         db.users.update_one({"user_id": session["user_id"]}, {"$set": {target: False}})
+        machine_data = db.machine.find_one({"machine_id": code})
+        add_row(code, [machine_data["user_id"], machine_data["start_time"], machine_data["phone"]])
+
     return redirect(url_for("main"))
 
 
@@ -177,6 +187,19 @@ def finish():
     db.machine.update_one({"machine_id": code}, {"$set": {"status": True}})
     target = "washer" if code in ["a_325", "a_326"] else "dryer"
     send(target)
+    flash("사용이 종료되었습니다. 감사합니다.")
+    return redirect(url_for("main"))
+
+
+@app.route("/alert", methods=["POST"])
+def alert():
+    code = request.form.get("machine")
+    log = pd.read_csv(f"./log/{code}.csv", dtype=object)
+    phone = [log["phone"][len(log) - 2]]
+    target = "세탁기" if code in ["a_325", "a_326"] else "건조기"
+    content = f"{target}에 남은 물품 수거 바랍니다."
+    sms(phone, content)
+    flash("회수 요청 메시지를 전송하였습니다.")
     return redirect(url_for("main"))
 
 

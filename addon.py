@@ -3,6 +3,7 @@ import time, requests, json
 
 
 def sms(numbers: list, content: str):
+    "numbers: List, content: String"
     with open("./key.json", "r") as j:
         data = json.load(j)
 
