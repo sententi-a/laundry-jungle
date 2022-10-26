@@ -78,8 +78,8 @@ html {
     height: 10%;
     text-align: center;
     top: 30%;
-    left: 52%;
-    transform: translate(-50%, -50%);
+    left: 50%;
+    /* transform: translate(-50%, -50%); */
     background-color: white;
     border-radius: 10px;
     font-weight: 600;
@@ -112,9 +112,9 @@ html {
     width: 30%;
     height: 20%;
     text-align: center;
-    top: 48%;
-    left: 52%;
-    transform: translate(-50%, -50%);
+    top: 41%;
+    left: 50%;
+    /* transform: translate(-50%, -50%); */
     background-color: #c7fccd;
     border: 2px solid #6b6b6b;
     border-radius: 10px;
@@ -130,9 +130,9 @@ html {
     width: 30%;
     line-height: 0.5rem;
     text-align: center;
-    top: 48%;
-    left: 52%;
-    transform: translate(-50%, -50%);
+    top: 41%;
+    left: 50%;
+    /* transform: translate(-50%, -50%); */
     background-color: #ffbdc2;
     border: 2px solid #6b6b6b;
     border-radius: 10px;
@@ -192,6 +192,7 @@ html {
 .btn-wrapper {
     column-gap: 30px;
     margin: 30px;
+
     grid-template-columns: 1fr 1fr;
 }
 
