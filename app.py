@@ -29,7 +29,7 @@ def send(machine: str):
         return TypeError
     users = list(map(lambda x: x["phone"], list(db.users.find({machine: True}))))
     m = "세탁기" if machine == "washer" else "건조기"
-    content = f"사용 가능 {m} 안내. https://www.laundry-jungle.com 링크로 접속해 확인하세요"
+    content = f"사용 가능 {m} 안내. http://laundry-jungle.com 링크로 접속해 확인하세요"
     sms(users, content)
 
 
@@ -43,7 +43,7 @@ def auto_shutdown():
         target = db.machine.find_one({"machine_id": machine})
         d = (datetime.now() - target["start_time"]) + timedelta(hours=9)
         content = "사용 상태 자동 종료 안내. 분실 방지 및 다음 사용자를 위해 빠른 수거 바랍니다."
-        if d.seconds // 60 > 120 and target["status"] == False:
+        if d.seconds // 60 > 120 and (machine in ["b_325", "b_326"]) and target["status"] == False:
             sms([target["phone"]], "건조기" + content)
             send("dryer")
             db.machine.update_one({"machine_id": machine}, {"$set": {"status": True}})
@@ -73,9 +73,9 @@ def refresh_log():
 
 
 scheduler = BackgroundScheduler()
-scheduler.add_job(func=auto_shutdown, trigger="interval", seconds=3)
-scheduler.add_job(func=cancel_reservation, trigger="cron", week="1-53", day_of_week="0-6", hour="4")
-scheduler.add_job(func=refresh_log, trigger="cron", month="1-12", day="1", hour="0", minute="0", second="0")
+scheduler.add_job(func=auto_shutdown, trigger="interval", seconds=60)
+scheduler.add_job(func=cancel_reservation, trigger="cron", week="1-53", day_of_week="0-6", hour="19")
+scheduler.add_job(func=refresh_log, trigger="cron", month="1-12", day="20", hour="15", minute="0", second="0")
 scheduler.start()
 atexit.register(lambda: scheduler.shutdown())
 # -----------------------------------------------------------------------------------------------
@@ -94,7 +94,7 @@ def login():
 def signin():
     if request.method == "GET":
         return render_template("signin.html")
-    else:
+    elif request.method == "POST":
         user_id = request.form.get("user_id")
         password = request.form.get("password")
 
@@ -113,7 +113,7 @@ def signin():
 def signup():
     if request.method == "GET":
         return render_template("signup.html")
-    else:
+    elif request.method == "POST":
         user_id = request.form.get("user_id")
         username = request.form.get("username")
         password = request.form.get("password")
@@ -124,9 +124,9 @@ def signup():
 
         user = {"user_id": user_id, "username": username, "password": password, "sex": sex, "team": team, "room": room, "phone": phone, "washer": False, "dryer": False}
         id_exist = bool(db.users.find_one({"user_id": user_id}))
+
         room_valid = re.compile("[0-9]{3}").search(room.replace(" ", ""))
         phone_valid = re.compile("[0-9]{11}").search(phone.replace(" ", ""))
-
         id_valid = re.compile("[a-zA-Z0-9]{4,20}").search(user_id.replace(" ", ""))
         pw_valid = re.compile("[a-zA-Z0-9!@#$%^&*]{4,20}").search(password.replace(" ", ""))
         # 전체 입력 확인
@@ -167,8 +167,13 @@ def main():
     return render_template("main.html", machine_list=machine_list, elapsed=elapsed, user=user)
 
 
-@app.route("/reservation", methods=["POST"])
+@app.route("/reservation", methods=["GET", "POST"])
 def book():
+    if not session["user_id"]:
+        return redirect("/")
+    if request.method == "GET":
+        flash("비정상적인 접근입니다.")
+        return redirect("/")
     user = db.users.find_one({"user_id": session["user_id"]})
     print(session["user_id"])
     machine = request.form.get("machine")
@@ -183,8 +188,13 @@ def logout():
     return redirect("/")
 
 
-@app.route("/update", methods=["POST"])
+@app.route("/update", methods=["GET", "POST"])
 def update():
+    if not session["user_id"]:
+        return redirect("/")
+    if request.method == "GET":
+        flash("비정상적인 접근입니다.")
+        return redirect("/")
     code = request.form.get("machine")
     machine = db.machine.find_one({"machine_id": code})
     if machine["status"]:
@@ -213,21 +223,31 @@ def update():
     return redirect(url_for("main"))
 
 
-@app.route("/finish", methods=["POST"])
+@app.route("/finish", methods=["GET", "POST"])
 def finish():
+    if not session["user_id"]:
+        return redirect("/")
+    if request.method == "GET":
+        flash("비정상적인 접근입니다.")
+        return redirect("/")
     code = request.form.get("machine")
     db.machine.update_one({"machine_id": code}, {"$set": {"status": True}})
-    target = "washer" if code in ["a_325", "a_326"] else "dryer"
+    target = "washer" if (code in ["a_325", "a_326"]) else "dryer"
     send(target)
     flash("사용이 종료되었습니다. 감사합니다.")
     return redirect(url_for("main"))
 
 
-@app.route("/alert", methods=["POST"])
+@app.route("/alert", methods=["GET", "POST"])
 def alert():
+    if not session["user_id"]:
+        return redirect("/")
+    if request.method == "GET":
+        flash("비정상적인 접근입니다.")
+        return redirect("/")
     code = request.form.get("machine")
     log = pd.read_csv(f"./log/{code}.csv", dtype=object)
-    phone = list(log.tail(2)["phone"])[0]
+    phone = list(log.tail(2)["phone"])[:1]
     target = "세탁기" if code in ["a_325", "a_326"] else "건조기"
     content = f"{target}에 남은 물품 수거 바랍니다."
     sms(phone, content)

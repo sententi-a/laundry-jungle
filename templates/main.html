@@ -3,7 +3,7 @@
 {% block title %}사용하기{% endblock %}
 
 {% block upper %}
-<span style="color:white; margin-left: 44px;">Good luck, {{user["user_id"]}}</span>
+<span style="color:white; margin-left: 44px;">Survive, {{user["user_id"]}}</span>
 <a style="float: right;" href="/logout"><img style="height:22px;"
         src="{{url_for('static', filename='logout.png')}}"></a>
 <hr>
@@ -79,13 +79,12 @@
             </div>
         </div>
     </form>
-    <img style="width:50px; height: 50px; margin-top: 30px;" src="{{url_for('static', filename='lj_logo.png')}}"
-        alt="logo">
-    <p style="color: white;">Team Laundry-jungle
-        <br>Contact: Laundry-jungle@gmail.com
-    </p>
+
 </div>
-<!--modal-->
+{% endblock %}
+
+<!--modal block 분리-->
+{% block modal %}
 {% for i in range(4) %}
 <!--사용가능일 때 모달-->
 {% if machine_list[i]['status'] %}
