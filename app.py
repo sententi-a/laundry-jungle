@@ -2,12 +2,11 @@ from http import client
 from flask import Flask, session, request, render_template, redirect, url_for, flash
 from pymongo import MongoClient
 from datetime import datetime
-import atexit
+import atexit, csv, re, shutil
 import pandas as pd
-import csv
 from apscheduler.schedulers.background import BackgroundScheduler
-import re
 from addon import sms
+
 
 client = MongoClient("localhost", 27017)
 db = client.laundry_jungle
@@ -59,9 +58,6 @@ def cancel_reservation():
     예약으로 발생하는 소요를 줄이기 위한 작업, 모든 예약 상태 False로 변경
     """
     db.users.update_many({}, {"$set": {"washer": False, "dryer": False}})
-
-
-import shutil
 
 
 def refresh_log():
