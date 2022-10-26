@@ -1,10 +1,12 @@
-html { font-size: 62.5%; }
+html {
+    font-size: 62.5%;
+}
 
 * {
     font-family: 'Noto Sans KR', sans-serif;
 }
 
-.wrapper{
+.wrapper {
     width: 50vw;
 }
 
@@ -15,12 +17,12 @@ html { font-size: 62.5%; }
     font-size: 3.5rem;
     font-weight: 700;
     /* display:flex; */
-    
+
 }
 
-.upper{
-    font-weight:400;
-    font-size:1.8rem;
+.upper {
+    font-weight: 400;
+    font-size: 1.8rem;
 }
 
 .laundry-room {
@@ -67,7 +69,7 @@ html { font-size: 62.5%; }
     left: 52%;
     transform: translate(-50%, -50%);
     background-color: white;
-    border-radius:10px;
+    border-radius: 10px;
     font-weight: 600;
     font-size: 1.8rem;
     border: solid 2px black;
@@ -76,14 +78,20 @@ html { font-size: 62.5%; }
 /*열려 있는 세탁기 이미지*/
 .open-machine {
     width: 20vw;
-    
+
 }
 
 /*닫혀 있는 세탁기 이미지*/
 .closed-machine {
     padding-left: 40px;
     width: 20vw;
-   
+    
+}
+
+/*내가 사용하는 세탁기/건조기*/
+.my-use {
+    -webkit-filter: drop-shadow(4px 4px 4px #c7363b) drop-shadow(-4px -4px 4px #c7363b);
+    filter: drop-shadow(4px 4px 4px #c7363b) drop-shadow(-4px -4px 4px #c7363b);
 }
 
 /*열려 있는 세탁기 위 텍스트*/
@@ -117,9 +125,9 @@ html { font-size: 62.5%; }
     border: 2px solid #6b6b6b;
     border-radius: 10px;
     box-shadow: 0px 0px 10px #6b6b6b;
-    font-size:1.7rem;
+    font-size: 1.7rem;
     font-weight: 500;
-    color:#87141e;
+    color: #87141e;
 }
 
 .transparent_button {
@@ -169,13 +177,14 @@ html { font-size: 62.5%; }
     display: none;
 }
 
-.btn-wrapper{
-    display:inline-block;
+.btn-wrapper {
+    display: inline-block;
     column-gap: 30px;
     width: 100vw;
     grid-template-columns: 1fr 1fr;
     column-gap: 20px;
 }
+
 .custom-button {
     border: 1px solid black;
     border-radius: 10px;
