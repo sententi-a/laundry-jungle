@@ -1,6 +1,7 @@
 from pymongo import MongoClient
 from datetime import datetime
 
+# 서버에는 아래 localhost → mongodb://test:test@localhost
 client = MongoClient("localhost", 27017)
 db = client.laundry_jungle
 

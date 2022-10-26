@@ -7,7 +7,7 @@ import pandas as pd
 from apscheduler.schedulers.background import BackgroundScheduler
 from addon import sms
 
-
+# 서버에는 아래 localhost → mongodb://test:test@localhost
 client = MongoClient("localhost", 27017)
 db = client.laundry_jungle
 app = Flask(__name__)
