@@ -1,7 +1,7 @@
 from pymongo import MongoClient
 from datetime import datetime
 
-client = MongoClient("mongodb://test:test@localhost", 27017)
+client = MongoClient("localhost", 27017)
 db = client.laundry_jungle
 
 # machine collection에 총 4대의 세탁기, 건조기 정보 insert
