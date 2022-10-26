@@ -1,7 +1,7 @@
 from http import client
 from flask import Flask, session, request, render_template, redirect, url_for, flash
 from pymongo import MongoClient
-from datetime import datetime
+from datetime import datetime, timedelta
 import atexit, csv, re, shutil
 import pandas as pd
 from apscheduler.schedulers.background import BackgroundScheduler
@@ -41,7 +41,7 @@ def auto_shutdown():
     machines = ["a_325", "a_326", "b_325", "b_326"]
     for machine in machines:
         target = db.machine.find_one({"machine_id": machine})
-        d = datetime.now() - target["start_time"]
+        d = (datetime.now() - target["start_time"]) + timedelta(hours=9)
         content = "사용 상태 자동 종료 안내. 분실 방지 및 다음 사용자를 위해 빠른 수거 바랍니다."
         if d.seconds // 60 > 120 and target["status"] == False:
             sms([target["phone"]], "건조기" + content)
@@ -154,7 +154,7 @@ def main():
     user = db.users.find_one({"user_id": session["user_id"]})
     # machine_list[0] == 'a_325', machin_list[1] == 'a_326', machine_list[2] == 'b_325', machine_list[3] == 'b_326'
 
-    elapsed = [(datetime.now() - machine["start_time"]).seconds // 60 for machine in machine_list]
+    elapsed = [(datetime.now() + timedelta(hours=9) - machine["start_time"]).seconds // 60 for machine in machine_list]
     return render_template("main.html", machine_list=machine_list, elapsed=elapsed, user=user)
 
 
@@ -191,7 +191,7 @@ def update():
                     "team": user["team"],
                     "room": user["room"],
                     "phone": user["phone"],
-                    "start_time": datetime.now(),
+                    "start_time": datetime.now() + timedelta(hours=9),
                 }
             },
         )
@@ -199,7 +199,8 @@ def update():
         db.users.update_one({"user_id": session["user_id"]}, {"$set": {target: False}})
         machine_data = db.machine.find_one({"machine_id": code})
         add_row(code, [machine_data["user_id"], machine_data["start_time"], machine_data["phone"]])
-
+    else:
+        flash("예약에 실패했습니다.")
     return redirect(url_for("main"))
 
 
