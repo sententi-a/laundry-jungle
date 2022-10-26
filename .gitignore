@@ -1,6 +1,6 @@
 # 암호 관리
 key.json
-log
+log/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
