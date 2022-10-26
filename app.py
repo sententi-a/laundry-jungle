@@ -8,7 +8,7 @@ from apscheduler.schedulers.background import BackgroundScheduler
 from addon import sms
 
 
-client = MongoClient("localhost", 27017)
+client = MongoClient("mongodb://test:test@localhost", 27017)
 db = client.laundry_jungle
 app = Flask(__name__)
 app.secret_key = b"kraftonjungle"
