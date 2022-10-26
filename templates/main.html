@@ -111,7 +111,16 @@
                         %}) {{machine_list[i]['room']}}호</p>
                     <p>시작시간: {{machine_list[i]['start_time'].strftime('%H시 %M분')}}</p>
                     <p>경과시간: {{elapsed[i]}}분</p>
+                    <!--해당 기계를 사용중인 유저일 때 즉, session의 user_id와 machine db의 user_id가 같을 때-->
+                    {% if user['user_id'] == machine_list[i]['user_id'] %}
+                    <form action="/finish" , method="post">
+                        <button type="submit" value="{{machine_list[i]['machine_id']}}" name="machine">사용완료</button>
+                    </form>
+                    <!--해당 기계를 사용중이 아닌 유저일 때-->
+                    {% else %}
                     <button onclick="close_modal('{{i}}')" type="button">확인</button>
+                    {% endif %}
+                
                 </div>
             </div>
         </div>
