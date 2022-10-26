@@ -43,11 +43,11 @@ def auto_shutdown():
         target = db.machine.find_one({"machine_id": machine})
         d = datetime.now() - target["start_time"]
         content = "사용 상태 자동 종료 안내. 분실 방지 및 다음 사용자를 위해 빠른 수거 바랍니다."
-        if d.seconds // 60 > 120 and target["status"]:
+        if d.seconds // 60 > 120 and target["status"] == False:
             sms([target["phone"]], "건조기" + content)
             send("dryer")
             db.machine.update_one({"machine_id": machine}, {"$set": {"status": True}})
-        elif d.seconds // 60 > 90 and (machine in ["a_325", "a_326"]) and target["status"]:
+        elif d.seconds // 60 > 90 and (machine in ["a_325", "a_326"]) and target["status"] == False:
             sms([target["phone"]], "세탁기" + content)
             send("washer")
             db.machine.update_one({"machine_id": machine}, {"$set": {"status": True}})
@@ -72,13 +72,12 @@ def refresh_log():
         new_df.to_csv(f"./log/{code}.csv", mode="w", index=False)
 
 
-# scheduler = BackgroundScheduler()
-# scheduler.add_job(func=auto_shutdown, trigger="interval", seconds=300)
-# scheduler.add_job(func=cancel_reservation, trigger="cron", week='1-53', day_of_week='0-6', hour='4')
-# scheduler.add_job(func=refresh_log, trigger="cron", month='1-12', day='1th', hour='0', minute='0', seconds='0')
-# scheduler.start()
-
-# atexit.register(lambda: scheduler.shutdown())
+scheduler = BackgroundScheduler()
+scheduler.add_job(func=auto_shutdown, trigger="interval", seconds=3)
+scheduler.add_job(func=cancel_reservation, trigger="cron", week="1-53", day_of_week="0-6", hour="4")
+scheduler.add_job(func=refresh_log, trigger="cron", month="1-12", day="1", hour="0", minute="0", second="0")
+scheduler.start()
+atexit.register(lambda: scheduler.shutdown())
 # -----------------------------------------------------------------------------------------------
 
 
