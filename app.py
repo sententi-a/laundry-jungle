@@ -169,7 +169,7 @@ def main():
 
 @app.route("/reservation", methods=["GET", "POST"])
 def book():
-    if not session["user_id"]:
+    if not "user_id" in session:
         return redirect("/")
     if request.method == "GET":
         flash("비정상적인 접근입니다.")
@@ -190,7 +190,7 @@ def logout():
 
 @app.route("/update", methods=["GET", "POST"])
 def update():
-    if not session["user_id"]:
+    if not "user_id" in session:
         return redirect("/")
     if request.method == "GET":
         flash("비정상적인 접근입니다.")
@@ -225,7 +225,7 @@ def update():
 
 @app.route("/finish", methods=["GET", "POST"])
 def finish():
-    if not session["user_id"]:
+    if not "user_id" in session:
         return redirect("/")
     if request.method == "GET":
         flash("비정상적인 접근입니다.")
@@ -240,7 +240,7 @@ def finish():
 
 @app.route("/alert", methods=["GET", "POST"])
 def alert():
-    if not session["user_id"]:
+    if not "user_id" in session:
         return redirect("/")
     if request.method == "GET":
         flash("비정상적인 접근입니다.")
