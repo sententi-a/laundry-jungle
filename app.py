@@ -95,6 +95,9 @@ def login():
 @app.route("/signin", methods=["GET", "POST"])
 def signin():
     if request.method == "GET":
+        if "user_id" in session:
+            flash("비정상적인 접근입니다.")
+            return redirect("/main")
         return render_template("signin.html")
     elif request.method == "POST":
         user_id = request.form.get("user_id")
@@ -114,6 +117,9 @@ def signin():
 @app.route("/signup", methods=["GET", "POST"])
 def signup():
     if request.method == "GET":
+        if "user_id" in session:
+            flash("비정상적인 접근입니다.")
+            return redirect("/main")
         return render_template("signup.html")
     elif request.method == "POST":
         user_id = request.form.get("user_id")
