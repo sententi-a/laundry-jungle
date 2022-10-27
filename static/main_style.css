@@ -152,15 +152,30 @@ body {
     width: 30%;
     min-width: 70px;
     height: 15%;
+    min-height: 30px;
     text-align: center;
-    top: 10%;
-    left: 38%;
-    /* transform: translate(-50%, -50%); */
+    top: 5%;
+    left: 50%;
+    transform: translate(-50%, -5%);
     background-color: white;
     border-radius: 10px;
     font-weight: 600;
     font-size: 1.8rem;
-    border: solid 2px black;
+    /* line-height: 180%; */
+    align-items: center;
+    /* border: solid 2px black; */
+}
+.washer{
+    /* border: solid 1px #00dcdc;
+    color: black; */
+    font-size: 1.5rem;
+    color:#00dcdc;
+}
+.dryer{
+    /* border: solid 1px #f5eb00;
+    color: black; */
+    font-size: 1.5rem;
+    color:#f5eb00;
 }
 
 
@@ -176,15 +191,15 @@ body {
     position: absolute;
     width: 30%;
     min-width: 90px;
-    line-height: 0.5rem;
+    line-height: 0.4rem;
     height: 20%;
-    min-height: 36px;
+    min-height: 40px;
     text-align: center;
-    top: 41%;
-    left: 38%;
-    /* transform: translate(-50%, -50%); */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     background-color: #c7fccd;
-    border: 2px solid #6b6b6b;
+    /* border: 2px solid #6b6b6b; */
     border-radius: 10px;
     box-shadow: 0px 0px 20px #a0f568;
     font-weight: 500;
@@ -198,12 +213,13 @@ body {
     width: 30%;
     min-width: 90px;
     line-height: 0.5rem;
+    min-height: 40px;
     text-align: center;
-    top: 41%;
-    left: 38%;
-    /* transform: translate(-50%, -50%); */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     background-color: #ffbdc2;
-    border: 2px solid #6b6b6b;
+    /* border: 2px solid #6b6b6b; */
     border-radius: 10px;
     box-shadow: 0px 0px 10px #6b6b6b;
     font-size: 1.7rem;
@@ -333,7 +349,7 @@ body {
     font-size: 4rem;
     font-weight: 500;
     margin: 3px;
-
+    color: black;
 }
 
 /***signin.html***/

@@ -25,7 +25,7 @@
             <button onclick="show_modal('{{i}}')" class="transparent_button" data-toggle="modal"
                 data-target="#modal{{ i }}">
                 <img class="machine-img open-machine" src="{{url_for('static', filename='washer_open.png')}}">
-                <div class="machine-name">{% if i < 2 %}세탁기{% else %}건조기{% endif %}</div>
+                <div class="machine-name">{% if i < 2 %}<span class='washer'>●</span>세탁기{% else %}<span class='dryer'>►</span>건조기{% endif %}</div>
                         <div class="text-on-open-machine">
                             <p>사용 가능</p>
                         </div>
@@ -35,14 +35,14 @@
             <button onclick="show_modal('{{i}}')" class="transparent_button">
                 <img class="machine-img closed-machine {% if user['user_id'] == machine_list[i]['user_id']%}my-use{% endif %}"
                     src="{{url_for('static', filename='washer_close.png')}}">
-                <div class="machine-name">{% if i < 2 %}세탁기{% else %}건조기{% endif %}</div>
+                <div class="machine-name">{% if i < 2 %}<span class='washer'>●</span>세탁기{% else %}<span class='dryer'>►</span>건조기{% endif %}</div>
                         <div class="text-on-closed-machine">
                             {% if machine_list[i]['sex'] == 'female' %}
                             <p>사용중(여)</p>
                             {% else %}
                             <p>사용중(남)</p>
                             {% endif %}
-                            <p>{{machine_list[i]['start_time'].strftime('%H:%M')}}</p>
+                            <p style="font-weight:400">{{machine_list[i]['start_time'].strftime('%H:%M')}}</p>
                         </div>
             </button>
             {% endif %}
