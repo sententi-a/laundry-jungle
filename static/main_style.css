@@ -165,17 +165,19 @@ body {
     align-items: center;
     /* border: solid 2px black; */
 }
-.washer{
+
+.washer {
     /* border: solid 1px #00dcdc;
     color: black; */
     font-size: 1.5rem;
-    color:#00dcdc;
+    color: #00dcdc;
 }
-.dryer{
+
+.dryer {
     /* border: solid 1px #f5eb00;
     color: black; */
     font-size: 1.5rem;
-    color:#f5eb00;
+    color: #f5eb00;
 }
 
 
@@ -372,7 +374,7 @@ body {
     margin-bottom: 0;
     padding: 20px;
     padding-top: 0px;
-    background-color: #f0fff7;
+    /* background-color: #f0fff7; */
 }
 
 .input-wrapper {
