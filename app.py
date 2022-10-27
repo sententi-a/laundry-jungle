@@ -102,7 +102,7 @@ def signin():
         # id/pw 입력, 패스워드 일치 여부 확인
         if user_id and password and user and user["password"] == password:
             session["user_id"] = user_id
-            flash("로그인 성공")
+            flash("Welcome to laundry jungle!")
             return redirect("/main")
         else:
             flash("아이디나 비밀번호를 확인하세요")
@@ -153,8 +153,9 @@ def signup():
             return render_template("signup.html")
         else:
             db.users.insert_one(user)
-            flash("회원가입 성공")
-            return redirect("/signin")
+            session["user_id"] = user_id
+            flash("Wash and Survive")
+            return redirect("/main")
 
 
 @app.route("/main")

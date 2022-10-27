@@ -3,7 +3,8 @@
 {% block content %}
 <h2 style="color: white; font-size:2.4rem;">SIGN UP</h2>
 <div class="signup-wrapper">
-    <form style="height: 40vh; min-height:350px; width: 30vw; min-width: 340px" action="/signup" method="POST">
+    <form style="height: 40vh; min-height:380px; width: 30vw; min-width: 340px; max-width: 550px;" action="/signup"
+        method="POST">
         <div id="signup-box"><label id="label-box" for="ID:">ID:<input id="singnup-input"
                     placeholder="[a-zA-Z0-9]{4,20}" type="text" name="user_id" /></label></div>
         <div id="signup-box"><label id="label-box" for="PW:">PW:<input id="singnup-input"
@@ -12,7 +13,7 @@
         <div id="signup-box"><label id="label-box" for="NAME:">NAME:<input id="singnup-input" type="text"
                     name="username" /></label>
         </div>
-        <div id="signup-box" style="margin-right: 15%;">
+        <div id="signup-box">
             <label id="label-box" for="SEX:">
                 SEX:<select id="singnup-input" style="width: 70%;" name="sex">
                     <option value="">SELECT</option>
@@ -21,7 +22,7 @@
                 </select>
             </label>
         </div>
-        <div id="signup-box" style="margin-right: 15%;">
+        <div id="signup-box">
             <label id="label-box" for="TEAM:">
                 TEAM:<select id="singnup-input" style="width: 70%;" name="team">
                     <option value="">SELECT</option>
@@ -35,7 +36,7 @@
         <div id="signup-box"><label id="label-box" for="PHONE:">PHONE:<input id="singnup-input" type="text" name="phone"
                     placeholder="[0-9]{11}" /></label></div>
         <div id="signup-box">
-            <button id="signup-button" type="submit">SIGN UP</button>
+            <button id="signup-button" type="submit">SUBMIT</button>
             <a href="/"><button id="signup-button" style="background-color:grey" type="button">BACK</button></a>
         </div>
     </form>

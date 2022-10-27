@@ -23,6 +23,7 @@
     <!--Local JS -->
     <script type="text/javascript" src="{{ url_for('static', filename='main_script.js') }}"></script>
     <title>런드리정글|{% block title %}{% endblock %}</title>
+    <link rel="icon" href="{{url_for('static', filename='lj_logo.png')}}">
     <script>
 
     </script>
@@ -40,8 +41,8 @@
         <div class='header'>
             <img style="width:50px; height: 50px; margin-top: 30px;" src="{{url_for('static', filename='lj_logo.png')}}"
                 alt="logo">
-            <p style="color: white; font-size:1.8rem; font-weight: 200;">Team Laundry-jungle
-                <br>Contact: laundryJungle1@gmail.com
+            <p style="color: white; font-size:1.8rem; font-weight: 200;">TEAM LAUNDRYJUNGLE
+                <br>CONTACT laundryjungle@gmail.com
             </p>
         </div>
         {% block modal %}{% endblock %}
