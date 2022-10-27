@@ -1,4 +1,3 @@
-from http import client
 from flask import Flask, session, request, render_template, redirect, url_for, flash
 from pymongo import MongoClient
 from datetime import datetime, timedelta
@@ -57,7 +56,10 @@ def cancel_reservation():
     """
     예약으로 발생하는 소요를 줄이기 위한 작업, 모든 예약 상태 False로 변경
     """
+    users = list(db.users.find({"$or": [{"washer": True}, {"dryer": True}]}))
+    numbers = list(map(lambda x: x["phone"], users))
     db.users.update_many({}, {"$set": {"washer": False, "dryer": False}})
+    sms(numbers, "예약 취소되었습니다.")
 
 
 def refresh_log():
@@ -73,7 +75,7 @@ def refresh_log():
 
 
 scheduler = BackgroundScheduler()
-scheduler.add_job(func=auto_shutdown, trigger="interval", seconds=60)
+scheduler.add_job(func=auto_shutdown, trigger="interval", seconds=600)
 scheduler.add_job(func=cancel_reservation, trigger="cron", week="1-53", day_of_week="0-6", hour="19")
 scheduler.add_job(func=refresh_log, trigger="cron", month="1-12", day="20", hour="15", minute="0", second="0")
 scheduler.start()
@@ -160,6 +162,8 @@ def signup():
 
 @app.route("/main")
 def main():
+    if not "user_id" in session:
+        return redirect("/")
     machine_list = list(db.machine.find({}, {"_id": 0}).sort("machine_id"))
     user = db.users.find_one({"user_id": session["user_id"]})
     # machine_list[0] == 'a_325', machin_list[1] == 'a_326', machine_list[2] == 'b_325', machine_list[3] == 'b_326'
@@ -220,7 +224,7 @@ def update():
         machine_data = db.machine.find_one({"machine_id": code})
         add_row(code, [machine_data["user_id"], machine_data["start_time"], machine_data["phone"]])
     else:
-        flash("예약에 실패했습니다.")
+        flash("이미 사용 중입니다.")
     return redirect(url_for("main"))
 
 
